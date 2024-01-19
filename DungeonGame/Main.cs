@@ -9,3 +9,4 @@ while (game.IsRunning)
     game.Press(UI.WaitUserInput());
     UI.Refresh(game);
 }
+UI.Refresh(game);
