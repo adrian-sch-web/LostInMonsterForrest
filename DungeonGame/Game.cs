@@ -9,17 +9,21 @@ namespace DungeonGame
 {
     internal class Game
     {
-        private int floor = 0;
+        public string Messages = "";
+        public int Floor = 0;
         public int[] BoardSize = [40, 20]; 
-        public Player Player { get; set; } = new Player([0, 0], 100, 20, 0);
+        public Player Player { get; set; } = new Player([0, 0], 100, 20, 10);
         public List<Monster> Monsters { get; set; } = [];
         public Door Door { get; set; } = new Door([0, 0]);
+        public Item Item { get; set; } = new Item([0, 0], " ");
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;
-        private readonly Random random = new();
+        public string FightMessage = "";
+        private readonly Random random = new Random();
         
         public void Press(ConsoleKey key)
         {
+            Messages = "";
             if (FightMode == -1)
             {
                 if(key == ConsoleKey.Enter)
@@ -42,15 +46,28 @@ namespace DungeonGame
                         direction = Direction.Down;
                         break;
                 }
-                if (DirectionCheck(direction, Player.Position))
+                if (!DirectionCheck(direction, Player.Position))
                 {
-                    Player.Move(direction);
-                    this.FightMode = MonsterOverlapCheck(Player.Position);
+                    return;
                 }
-                if (Player.Position[0] == Door.Position[0] && Player.Position[1] == Door.Position[1])
+                Player.Move(direction);
+                FightMode = MonsterOverlapCheck(Player.Position);
+                if (FightMode != -1) return;
+                
+                if (OnDoor(Player.Position))
                 {
                     NextFloor();
                 }
+                if (OnItem(Player.Position))
+                {
+                    if (Item.Type != " ")
+                    {
+                        Messages = "You collected a " + Item.Fullname() + "!";
+                    }
+                    Player.Collect(Item);
+                    
+                }
+                MonsterTurn();
             }
             else
             {
@@ -58,20 +75,79 @@ namespace DungeonGame
                 {
                     return;
                 }
-                Fight();
+                if (Fight())
+                {
+                    return;
+                }
+                if(Player.Hp == 0)
+                {
+                    IsRunning = false;
+                }
             }
         }
 
-        public void Fight()
+        public bool OnItem(int[] position)
+        {
+            return position[0] == Item.Position[0] && position[1] == Item.Position[1];
+        }
+
+        public bool OnDoor(int[] position)
+        {
+            return position[0] == Door.Position[0] && position[1] == Door.Position[1];
+        }
+        public void MonsterTurn()
+        {
+            foreach (var monster in Monsters)
+            {
+                Direction direction;
+                do
+                {
+                    direction = (Direction)random.Next(4);
+                } while (!DirectionCheck(direction, monster.Position));
+                int[] newPosition = GetNewPosition(monster.Position, direction);
+                if (MonsterOverlapCheck(newPosition) != -1 || OnDoor(newPosition) || OnItem(newPosition))
+                {
+                    return;
+                }
+                monster.Move(direction);
+            }
+            FightMode = MonsterOverlapCheck(Player.Position);
+        }
+
+        public bool Fight()
         {
             Monster monster = Monsters.Find(x => x.id == FightMode);
-            monster.Defend(Player.Attack(random.Next(100)));
-            if(monster.Hp <= 0)
+            if(monster.Hp == 0)
             {
-                return;
+                FightMode = -1;
+                Monsters.Remove(monster);
+                return false;
             }
-            Player.Defend(monster.Attack(random.Next(100)));
+            int attack = Player.Attack(random.Next(100));
+            monster.Defend(attack);
+            Messages += "You striked the monster!\n";
+            if (attack > Player.Damage)
+            {
+                Messages += "It was a critical strike!\n";
+            }
+            Messages += "The monster lost " + attack + " hp\n\n";
+            if (monster.Hp <= 0)
+            {
+                Messages += "The monster died.";
+                return false;
+            }
+            attack = monster.Attack(random.Next(100));
+            Player.Defend(attack);
+            Messages += "The monster striked you!\n";
+            if (attack > monster.Damage)
+            {
+                Messages += "It was a critical strike!\n";
+            }
+            Messages += "You lost " + attack + " hp\n\n";
+
+            return Player.Hp > 0;
         }
+
         public bool DirectionCheck(Direction direction, int[] position)
         {
             switch (direction)
@@ -98,33 +174,52 @@ namespace DungeonGame
 
         public void NextFloor()
         {
-            floor++;
+            Floor++;
             Setup();
+            Messages = "You have reached Floor " + Floor;
         }
 
         public void Setup()
         {
-            MonsterSetup(3 + floor);
+            MonsterSetup(3 + 2 * Floor);
+            Door.Position = GetRandomPosition();
+            ItemSetup();
+        }
+
+        public void ItemSetup()
+        {
+            Item.Position = GetRandomPosition();
+            switch (random.Next(3))
+            {
+                case 0: 
+                    Item.Type = "C";
+                    break;
+                case 1:
+                    Item.Type = "D";
+                    break;
+                case 2:
+                    Item.Type = "H";
+                    break;
+            }
+        }
+
+        public int[] GetRandomPosition()
+        {
             int xPos, yPos;
             do
             {
-                xPos = random.Next(40);
-                yPos = random.Next(20);
+                xPos = random.Next(BoardSize[0]);
+                yPos = random.Next(BoardSize[1]);
             } while ((xPos == Player.Position[0] && yPos == Player.Position[1]) && MonsterOverlapCheck([xPos, yPos]) != -1);
-            Door.Position[0] = xPos;
-            Door.Position[1] = yPos;
+            return [xPos, yPos];
         }
         public void MonsterSetup(int amount)
         {
             Monsters = [];
             for(int i = 0; i < amount; i++)
             {
-                int xPos , yPos;
-                do {
-                    xPos = random.Next(40);
-                    yPos = random.Next(20);
-                } while ((xPos == Player.Position[0] && yPos == Player.Position[0]) && MonsterOverlapCheck([xPos,yPos]) != -1);
-                Monsters.Add(Monster.CreateMonster(i + 1 , random.Next(3), [xPos, yPos]));
+                int[] position = GetRandomPosition(); 
+                Monsters.Add(Monster.CreateMonster(i + 1 , random.Next(3), position));
             }
         }
 
@@ -138,6 +233,21 @@ namespace DungeonGame
                 }
             }
             return -1;
+        }
+
+        private int[] GetNewPosition(int[] position, Direction direction)
+        {
+            switch (direction)
+            {
+                case (Direction.Left):
+                    return [position[0] - 1, position[1]];
+                case (Direction.Right):
+                    return [position[0] + 1, position[1]];
+                case (Direction.Up):
+                    return [position[0], position[1] - 1];
+                default:
+                    return [position[0], position[1] + 1];
+            }
         }
     }
 }
