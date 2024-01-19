@@ -24,11 +24,6 @@ namespace DungeonGame
         public void Refresh(Game game)
         {
             Console.Clear();
-            if (!game.IsRunning)
-            {
-                Death(game);
-                return;
-            }
             Console.WriteLine(String.Concat("HP: " + game.Player.Hp + "    AD: " + game.Player.Damage + "    Crit Chance: " + game.Player.CritChance + "%"));
             if (game.FightMode != -1)
             {
@@ -40,45 +35,44 @@ namespace DungeonGame
             }
         }
 
-        private void RefreshFight(Game game)
+        public void RefreshFight(Game game)
         {
             Monster monster = game.Monsters.Find(x => x.id == game.FightMode);
             Console.WriteLine("\n\n\nFIGHT!!!");
             Console.WriteLine("\n\n" + game.Player.Hp + "      " + monster.Hp);
-            Console.WriteLine("\n\n" + game.Messages);
 
         }
-        private void RefreshBoard(Game game)
+        public void RefreshBoard(Game game)
         {
             string[] tempBoard = new string[board.Length];
             for (int i = 0; i < tempBoard.Length; i++)
             {
                 tempBoard[i] = board[i];
             }
-            string floor = "Floor " + game.Floor;
-            tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
+            tempBoard[game.Player.Position[1] + 1] =
+                string.Concat(tempBoard[game.Player.Position[1] + 1].AsSpan(0, game.Player.Position[0] + 1), 
+                "+",
+                tempBoard[game.Player.Position[1] + 1].AsSpan(game.Player.Position[0] + 2));
 
-            tempBoard[game.Door.Position[1] + 1] = PrintSymbol(game.Door.Position, tempBoard[game.Door.Position[1] + 1], "¶");
-            tempBoard[game.Item.Position[1] + 1] = PrintSymbol(game.Item.Position, tempBoard[game.Item.Position[1] + 1], game.Item.Type);
-            tempBoard[game.Player.Position[1] + 1] = PrintSymbol(game.Player.Position, tempBoard[game.Player.Position[1] + 1], "+");
+            tempBoard[game.Door.Position[1] + 1] =
+                string.Concat(tempBoard[game.Door.Position[1] + 1].AsSpan(0, game.Door.Position[0] + 1),
+                "¶",
+                tempBoard[game.Door.Position[1] + 1].AsSpan(game.Door.Position[0] + 2));
 
             foreach ( var monster in game.Monsters)
             {
-                tempBoard[monster.Position[1] + 1] = PrintSymbol(monster.Position, tempBoard[monster.Position[1] + 1], monster.Symbol);
+                tempBoard[monster.Position[1] + 1] =
+                    string.Concat(tempBoard[monster.Position[1] + 1].AsSpan(0, monster.Position[0] + 1),
+                    monster.Symbol,
+                    tempBoard[monster.Position[1] + 1].AsSpan(monster.Position[0] + 2));
             }
 
             for(int i = 0; i < tempBoard.Length; i++) 
             {
                 Console.WriteLine(tempBoard[i]);
             }
-            Console.WriteLine("\n\n" + game.Messages);
         }
 
-        private string PrintSymbol(int[] position, string line,  string symbol)
-        {
-            line = string.Concat(line.AsSpan(0, position[0] + 1), symbol, line.AsSpan(position[0] + 2));
-            return line;
-        }
         public ConsoleKey WaitUserInput()
         {
             ConsoleKeyInfo keyInfo;
@@ -94,13 +88,6 @@ namespace DungeonGame
                 keyInfo.Key != ConsoleKey.Enter
             );
             return keyInfo.Key;
-        }
-
-        private void Death(Game game)
-        {
-            Console.Clear();
-            Console.WriteLine("\n\nGame Over!\n\n\n");
-            Console.WriteLine("You died and made it to Floor " + game.Floor + "!");
         }
     }
 }

@@ -6,23 +6,28 @@ using System.Threading.Tasks;
 
 namespace DungeonGame
 {
-    internal class Player(int[] _Position, int _Hp, int _Damage, int _CritChance) : Fighter(_Position, _Hp, _Damage, _CritChance)
+    internal class Player(int[] _position, int _Hp, int _Damage, int _CritChance) : Fighter, IPlaceable
     {
-        public void Collect(Item item)
+        public int[] Position { get; } = _position;
+        public int Hp { get; } = _Hp;
+        public int Damage { get; } = _Damage;
+        public int CritChance { get; } = _CritChance;
+
+        public void Move(Direction direction)
         {
-            switch(item.Type)
+            switch (direction)
             {
-                case "C":
-                    CritChance += 5;
-                    item.Type = " ";
+                case Direction.Left:
+                    Position[0]--;
                     break;
-                case "D":
-                    Damage += 5;
-                    item.Type = " ";
+                case Direction.Right:
+                    Position[0]++;
                     break;
-                case "H":
-                    Hp += 5;
-                    item.Type = " ";
+                case Direction.Up:
+                    Position[1]--;
+                    break;
+                case Direction.Down:
+                    Position[1]++;
                     break;
             }
         }

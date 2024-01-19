@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonGame
 {
-    internal class Placeable(int[] _position)
+    internal interface IPlaceable
     {
-        public int[] Position { get; set; } = _position;
+        int[] Position { get { return Position; } }
     }
 }
