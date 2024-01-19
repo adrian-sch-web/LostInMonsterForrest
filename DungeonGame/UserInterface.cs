@@ -56,7 +56,7 @@ namespace DungeonGame
                 tempBoard[i] = board[i];
             }
             string floor = "Floor " + game.Floor;
-            tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
+            //tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
 
             tempBoard[game.Door.Position[1] + 1] = PrintSymbol(game.Door.Position, tempBoard[game.Door.Position[1] + 1], "¶");
             tempBoard[game.Item.Position[1] + 1] = PrintSymbol(game.Item.Position, tempBoard[game.Item.Position[1] + 1], game.Item.Type);
@@ -64,7 +64,7 @@ namespace DungeonGame
 
             foreach ( var monster in game.Monsters)
             {
-                tempBoard[monster.Position[1] + 1] = PrintSymbol(monster.Position, tempBoard[monster.Position[1] + 1], monster.Symbol);
+                tempBoard[monster.Position[1] + 1] = PrintSymbol(monster.Position, tempBoard[monster.Position[1] + 1], getMonsterSymbol(monster.Type));
             }
 
             for(int i = 0; i < tempBoard.Length; i++) 
@@ -74,6 +74,18 @@ namespace DungeonGame
             Console.WriteLine("\n\n" + game.Messages);
         }
 
+        private string getMonsterSymbol(int type)
+        {
+            switch (type)
+            {
+                case 0:
+                    return "§";
+                case 1:
+                    return "$";
+                default:
+                    return "#";
+            }
+        }
         private string PrintSymbol(int[] position, string line,  string symbol)
         {
             line = string.Concat(line.AsSpan(0, position[0] + 1), symbol, line.AsSpan(position[0] + 2));

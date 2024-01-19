@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonGame
 {
-    internal class Door(int[] _position): Placeable(_position)
+    public class Door(int[] _position): Placeable(_position)
     {
     }
 }

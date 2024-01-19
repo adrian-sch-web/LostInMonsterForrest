@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonGame
 {
-    internal class Item(int[] _position, string _type): Placeable(_position)
+    public class Item(int[] _position, string _type): Placeable(_position)
     {
         public string Type = _type;
 
