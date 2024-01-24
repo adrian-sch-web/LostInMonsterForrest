@@ -4,11 +4,7 @@
     {
         public string Messages = "";
         public int Floor = 0;
-        public int[] MapSize = [40, 20]; 
-        public Player Player { get; set; } = new(new Position(), 100, 20, 10);
-        public List<Monster> Monsters { get; set; } = [];
-        public Door Door { get; set; } = new(new Position());
-        public List<Item> Items { get; set; } = [];
+        public Map Map = new Map();
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;        //Index of monster in fight -1 if not in fight
         public string FightMessage = "";
@@ -26,11 +22,11 @@
 
                 Direction direction = InputToDirection(input);
                 
-                if (!DirectionCheck(direction, Player.Position))
+                if (!DirectionCheck(direction, Map.Player.Position))
                 {
                     return;
                 }
-                Player.Move(direction);
+                Map.Player.Move(direction);
 
                 CollisionChecks();
                 if(FightMode != -1)
@@ -50,7 +46,7 @@
                 {
                     return;
                 }
-                if(Player.Hp == 0)
+                if(Map.Player.Hp == 0)
                 {
                     IsRunning = false;
                 }
@@ -59,21 +55,21 @@
 
         public void CollisionChecks()
         {
-            FightMode = OverlappingMonster(Player.Position);
+            FightMode = OverlappingMonster(Map.Player.Position);
             if (FightMode != -1)
             {
                 return;
             }
 
-            Item? item = Items.Find(x => x.Id == OnItem(Player.Position));
+            Item? item = Map.Items.Find(x => x.Id == OnItem(Map.Player.Position));
             if (item != null)
             {
-                Player.Collect(item);
-                Items.Remove(item);
+                Map.Player.Collect(item);
+                Map.Items.Remove(item);
                 return;
             }
 
-            if (Door.OnSameSpot(Player.Position))
+            if (Map.Door.OnSameSpot(Map.Player.Position))
             {
                 NextFloor();
             }
@@ -88,7 +84,7 @@
 
         public void MonsterTurn()
         {
-            foreach (var monster in Monsters)
+            foreach (var monster in Map.Monsters)
             {
                 Direction direction;
                 do
@@ -97,18 +93,18 @@
                 } while (!DirectionCheck(direction, monster.Position));
                 Position newPosition = GetNewPosition(monster.Position, direction);
                 
-                if (OverlappingMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnItem(newPosition) != -1)
+                if (OverlappingMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || OnItem(newPosition) != -1)
                 {
                     continue;
                 }
                 monster.Move(direction);
             }
-            FightMode = OverlappingMonster(Player.Position);
+            FightMode = OverlappingMonster(Map.Player.Position);
         }
 
         public bool Fight()
         {
-            Monster? monster = Monsters.Find(x => x.Id == FightMode);
+            Monster? monster = Map.Monsters.Find(x => x.Id == FightMode);
             if(monster == null)
             {
                 return false;
@@ -116,13 +112,13 @@
             if(monster.Hp == 0)
             {
                 FightMode = -1;
-                Monsters.Remove(monster);
+                Map.Monsters.Remove(monster);
                 return false;
             }
-            int attack = Player.Attack(random.Next(100));
+            int attack = Map.Player.Attack(random.Next(100));
             monster.Defend(attack);
             Messages += "You striked the monster!\n";
-            if (attack > Player.Damage)
+            if (attack > Map.Player.Damage)
             {
                 Messages += "It was a critical strike!\n";
             }
@@ -133,7 +129,7 @@
                 return false;
             }
             attack = monster.Attack(random.Next(100));
-            Player.Defend(attack);
+            Map.Player.Defend(attack);
             Messages += "The monster striked you!\n";
             if (attack > monster.Damage)
             {
@@ -141,7 +137,7 @@
             }
             Messages += "You lost " + attack + " hp\n\n";
 
-            return Player.Hp > 0;
+            return Map.Player.Hp > 0;
         }
 
         public bool DirectionCheck(Direction direction, Position position)
@@ -153,7 +149,7 @@
                         return false;
                     break;
                 case Direction.Right:
-                    if (position.X == MapSize[0] - 1)
+                    if (position.X == Map.Size[0] - 1)
                         return false;
                     break;
                 case Direction.Up:
@@ -161,7 +157,7 @@
                         return false;
                     break;
                 case Direction.Down:
-                    if (position.Y == MapSize[1] - 1)
+                    if (position.Y == Map.Size[1] - 1)
                         return false;
                     break;
             }
@@ -181,42 +177,42 @@
             Position newPosition;
             do
             {
-                xPos = random.Next(MapSize[0]);
-                yPos = random.Next(MapSize[1]);
+                xPos = random.Next(Map.Size[0]);
+                yPos = random.Next(Map.Size[1]);
                 newPosition = new Position(xPos, yPos);
-            } while (Player.OnSameSpot(newPosition) || OverlappingMonster(new Position(0, 0)) != -1 || Door.OnSameSpot(newPosition));
+            } while (Map.Player.OnSameSpot(newPosition) || OverlappingMonster(new Position(0, 0)) != -1 || Map.Door.OnSameSpot(newPosition));
             return newPosition;
         }
 
         private void MonsterSetup(int amount)
         {
-            Monsters = [];
+            Map.Monsters = [];
             for(int i = 0; i < amount; i++)
             {
-                Position position = GetRandomPosition(); 
-                Monsters.Add(Monster.CreateMonster(i + 1 , (MonsterType) random.Next(3), position));
+                Position position = GetRandomPosition();
+                Map.Monsters.Add(Monster.CreateMonster(i + 1 , (MonsterType) random.Next(3), position));
             }
         }
 
         public void ItemSetup(int amount)
         {
-            Items = [];
+            Map.Items = [];
             for(int i = 0; i < amount; i++)
             {
                 Position position = GetRandomPosition();
-                Items.Add(Item.CreateItem(i + 1, (ItemType)random.Next(3), position));
+                Map.Items.Add(Item.CreateItem(i + 1, (ItemType)random.Next(3), position));
             }
 
         }
 
         public void DoorSetup()
         {
-            Door.Position = GetRandomPosition();
+            Map.Door.Position = GetRandomPosition();
         }
 
         public int OverlappingMonster(Position position)
         {
-            foreach (Monster monster in Monsters)
+            foreach (Monster monster in Map.Monsters)
             {
                 if(monster.OnSameSpot(position))
                 {
@@ -228,7 +224,7 @@
 
         public int OnItem(Position position)
         {
-            foreach(var item in Items)
+            foreach(var item in Map.Items)
             {
                 if (item.OnSameSpot(position))
                 { 

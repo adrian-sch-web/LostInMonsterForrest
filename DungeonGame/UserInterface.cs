@@ -25,7 +25,7 @@ namespace DungeonGame.UI
                 Death(game);
                 return;
             }
-            Console.WriteLine(String.Concat("HP: " + game.Player.Hp + "    AD: " + game.Player.Damage + "    Crit Chance: " + game.Player.CritChance + "%"));
+            Console.WriteLine(String.Concat("HP: " + game.Map.Player.Hp + "    AD: " + game.Map.Player.Damage + "    Crit Chance: " + game.Map.Player.CritChance + "%"));
             if (game.FightMode != -1)
             {
                 RefreshFight(game);
@@ -38,13 +38,13 @@ namespace DungeonGame.UI
 
         private void RefreshFight(Game game)
         {
-            Monster? monster = game.Monsters.Find(x => x.Id == game.FightMode);
+            Monster? monster = game.Map.Monsters.Find(x => x.Id == game.FightMode);
             if(monster == null)
             {
                 return;
             }
             Console.WriteLine("\n\n\nFIGHT!!!");
-            Console.WriteLine("\n\n" + game.Player.Hp + "      " + monster.Hp);
+            Console.WriteLine("\n\n" + game.Map.Player.Hp + "      " + monster.Hp);
             Console.WriteLine("\n\n" + game.Messages);
 
         }
@@ -58,16 +58,16 @@ namespace DungeonGame.UI
             string floor = "Floor " + game.Floor;
             tempMap[0] = String.Concat("*" , floor, tempMap[0].AsSpan(floor.Length + 1));
 
-            tempMap[game.Door.Position.Y + 1] = PrintSymbol(game.Door.Position, tempMap[game.Door.Position.Y + 1], "¶");
-            tempMap[game.Player.Position.Y + 1] = PrintSymbol(game.Player.Position, tempMap[game.Player.Position.Y + 1], "+");
+            tempMap[game.Map.Door.Position.Y + 1] = PrintSymbol(game.Map.Door.Position, tempMap[game.Map.Door.Position.Y + 1], "¶");
+            tempMap[game.Map.Player.Position.Y + 1] = PrintSymbol(game.Map.Player.Position, tempMap[game.Map.Player.Position.Y + 1], "+");
 
-            foreach(var item in game.Items)
+            foreach(var item in game.Map.Items)
             {
                 tempMap[item.Position.Y + 1] = PrintSymbol(item.Position, tempMap[item.Position.Y + 1], getItemSymbol(item.Type));
 
             }
 
-            foreach ( var monster in game.Monsters)
+            foreach ( var monster in game.Map.Monsters)
             {
                 tempMap[monster.Position.Y + 1] = PrintSymbol(monster.Position, tempMap[monster.Position.Y + 1], getMonsterSymbol(monster.Type));
             }

@@ -10,7 +10,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Game game = new();
-            game.Monsters.Add(Monster.CreateMonster(1, 0, new Position(1, 1)));
+            game.Map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(1, 1)));
 
             //Act
             int actualOverlap = game.OverlappingMonster(new Position(1, 1));
@@ -24,9 +24,9 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Game game = new();
-            game.Monsters.Add(Monster.CreateMonster(1, 0, new Position(0, 1)));
-            game.Monsters.Add(Monster.CreateMonster(2, 0, new Position(1, 0)));
-            game.Monsters.Add(Monster.CreateMonster(3, 0, new Position()));
+            game.Map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(0, 1)));
+            game.Map.Monsters.Add(Monster.CreateMonster(2, 0, new Position(1, 0)));
+            game.Map.Monsters.Add(Monster.CreateMonster(3, 0, new Position()));
 
             //Act
             int actualOverlap = game.OverlappingMonster(new Position(1, 1));

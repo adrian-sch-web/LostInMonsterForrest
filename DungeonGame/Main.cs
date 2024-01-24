@@ -3,7 +3,7 @@ using DungeonGame.UI;
 
 Game game = new();
 game.Setup();
-UserInterface UI = new(game.MapSize);
+UserInterface UI = new(game.Map.Size);
 UI.Refresh(game);
 while (game.IsRunning)
 {
