@@ -9,10 +9,10 @@ namespace DungeonGame.Tests
         public void DirectionTestLeftSuccess()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
             
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Left, new Position(1, 0));
+            bool actualResult = map.DirectionCheck(Direction.Left, new Position(1, 0));
 
             //Assert
             Assert.True(actualResult);
@@ -22,10 +22,10 @@ namespace DungeonGame.Tests
         public void DirectionTestLeftFail() 
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Left, new Position(0, 1));
+            bool actualResult = map.DirectionCheck(Direction.Left, new Position(0, 1));
 
             //Assert
             Assert.False(actualResult);
@@ -35,10 +35,10 @@ namespace DungeonGame.Tests
         public void DirectionTestRightSuccess()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Right, new Position(game.Map.Size[0] - 2, 10));
+            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size[0] - 2, 10));
 
             //Assert
             Assert.True(actualResult);
@@ -48,10 +48,10 @@ namespace DungeonGame.Tests
         public void DirectionTestRightFail()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Right, new Position(game.Map.Size[0] - 1, 10));
+            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size[0] - 1, 10));
 
             //Assert
             Assert.False(actualResult);
@@ -61,10 +61,10 @@ namespace DungeonGame.Tests
         public void DirectionTestUpSuccess()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Up, new Position(0, 1));
+            bool actualResult = map.DirectionCheck(Direction.Up, new Position(0, 1));
 
             //Assert
             Assert.True(actualResult);
@@ -74,10 +74,10 @@ namespace DungeonGame.Tests
         public void DirectionTestUpFail()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Up, new Position(1, 0));
+            bool actualResult = map.DirectionCheck(Direction.Up, new Position(1, 0));
 
             //Assert
             Assert.False(actualResult);
@@ -87,10 +87,10 @@ namespace DungeonGame.Tests
         public void DirectionTestDownSuccess()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Down, new Position(0, game.Map.Size[1] - 2));
+            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size[1] - 2));
 
             //Assert
             Assert.True(actualResult);
@@ -100,10 +100,10 @@ namespace DungeonGame.Tests
         public void DirectionTestDownFail()
         {
             //Arrange
-            Game game = new();
+            Map map = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Down, new Position(0, game.Map.Size[1] - 1));
+            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size[1] - 1));
 
             Assert.False(actualResult);
         }
