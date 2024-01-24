@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DungeonGame.Tests
 {
-    public class MoveTests
+    public class PlaceableTests
     {
         [Fact]
         public void MoveLeft()
@@ -65,5 +65,56 @@ namespace DungeonGame.Tests
             Assert.Equal(expectedPosition, testPlaceable.Position);
         }
 
+        [Fact]
+        public void SameSpotCheckSuccess()
+        {
+            //Arrange
+            Placeable testPlaceable = new([3, 6]);
+
+            //Act
+            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+
+            //Assert
+            Assert.True(actualResult);
+        }
+
+        [Fact]
+        public void SameSpotCheckFailFull()
+        {
+            //Arrange
+            Placeable testPlaceable = new([2, 7]);
+
+            //Act
+            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+
+            //Assert
+            Assert.False(actualResult);
+        }
+
+        [Fact]
+        public void SameSpotCheckFailHorizontal()
+        {
+            //Arrange
+            Placeable testPlaceable = new([2, 6]);
+
+            //Act
+            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+
+            //Assert
+            Assert.False(actualResult);
+        }
+
+        [Fact]
+        public void SameSpotCheckFailVertical()
+        {
+            //Arrange
+            Placeable testPlaceable = new([3, 7]);
+
+            //Act
+            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+
+            //Assert
+            Assert.False(actualResult);
+        }
     }
 }

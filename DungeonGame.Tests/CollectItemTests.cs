@@ -14,8 +14,8 @@ namespace DungeonGame.Tests
         public void CollectDamageUp()
         {
             //Arrange
-            Player testPlayer = new Player([0, 0], 10, 10, 10);
-            Item testItem = new Item([0, 0], "D");
+            Player testPlayer = new([0, 0], 10, 10, 10);
+            Item testItem = new([0, 0], "D");
             int expectedHp = 10;
             int expectedDamage = 15;
             int expectedCritChance = 10;
@@ -33,8 +33,8 @@ namespace DungeonGame.Tests
         public void CollectCritChanceUp()
         {
             //Arrange
-            Player testPlayer = new Player([0, 0], 10, 10, 10);
-            Item testItem = new Item([0, 0], "C");
+            Player testPlayer = new([0, 0], 10, 10, 10);
+            Item testItem = new([0, 0], "C");
             int expectedHp = 10;
             int expectedDamage = 10;
             int expectedCritChance = 15;
@@ -52,8 +52,8 @@ namespace DungeonGame.Tests
         public void CollectHeal()
         {
             //Arrange
-            Player testPlayer = new Player([0, 0], 10, 10, 10);
-            Item testItem = new Item([0, 0], "H");
+            Player testPlayer = new([0, 0], 10, 10, 10);
+            Item testItem = new([0, 0], "H");
             int expectedHp = 15;
             int expectedDamage = 10;
             int expectedCritChance = 10;
@@ -71,8 +71,8 @@ namespace DungeonGame.Tests
         public void CollectEmptyItem()
         {
             //Arrange
-            Player testPlayer = new Player([0, 0], 10, 10, 10);
-            Item testItem = new Item([0, 0], "");
+            Player testPlayer = new([0, 0], 10, 10, 10);
+            Item testItem = new([0, 0], "");
             int expectedHp = 10;
             int expectedDamage = 10;
             int expectedCritChance = 10;

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame", "DungeonGame\DungeonGame.csproj", "{33B74864-B242-45D5-8BF8-9C84B6817AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGame.Tests", "DungeonGame.Tests\DungeonGame.Tests.csproj", "{E8B19304-F58C-4293-BA9F-EEC43D06ADFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.Tests", "DungeonGame.Tests\DungeonGame.Tests.csproj", "{E8B19304-F58C-4293-BA9F-EEC43D06ADFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

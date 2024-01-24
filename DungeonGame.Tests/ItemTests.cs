@@ -13,7 +13,7 @@ namespace DungeonGame.Tests
         public void DamageUpItemText()
         {
             //Arrange
-            Item testItem = new Item([0, 0], "D");
+            Item testItem = new([0, 0], "D");
             string expectedText = "Damage Up";
 
             //Act
@@ -27,7 +27,7 @@ namespace DungeonGame.Tests
         public void CritChanceUpItemText()
         {
             //Arrange
-            Item testItem = new Item([0, 0], "C");
+            Item testItem = new([0, 0], "C");
             string expectedText = "Critical Strike Chance Up";
 
             //Act
@@ -41,7 +41,7 @@ namespace DungeonGame.Tests
         public void HealItemText()
         {
             //Arrange
-            Item testItem = new Item([0, 0], "H");
+            Item testItem = new([0, 0], "H");
             string expectedText = "Heal";
 
             //Act
@@ -55,7 +55,7 @@ namespace DungeonGame.Tests
         public void ItemGoneText()
         {
             //Arrange
-            Item testItem = new Item([0, 0], "");
+            Item testItem = new([0, 0], "");
             string expectedText = "";
 
             //Act

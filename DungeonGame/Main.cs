@@ -1,8 +1,8 @@
 ﻿using DungeonGame;
 
-Game game = new Game();
+Game game = new();
 game.Setup();
-UserInterface UI = new UserInterface(game.BoardSize);
+UserInterface UI = new(game.BoardSize);
 UI.Refresh(game);
 while (game.IsRunning)
 {

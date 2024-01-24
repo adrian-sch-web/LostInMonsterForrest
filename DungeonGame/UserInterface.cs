@@ -42,7 +42,11 @@ namespace DungeonGame
 
         private void RefreshFight(Game game)
         {
-            Monster monster = game.Monsters.Find(x => x.id == game.FightMode);
+            Monster? monster = game.Monsters.Find(x => x.Id == game.FightMode);
+            if(monster == null)
+            {
+                return;
+            }
             Console.WriteLine("\n\n\nFIGHT!!!");
             Console.WriteLine("\n\n" + game.Player.Hp + "      " + monster.Hp);
             Console.WriteLine("\n\n" + game.Messages);
@@ -56,7 +60,7 @@ namespace DungeonGame
                 tempBoard[i] = board[i];
             }
             string floor = "Floor " + game.Floor;
-            //tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
+            tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
 
             tempBoard[game.Door.Position[1] + 1] = PrintSymbol(game.Door.Position, tempBoard[game.Door.Position[1] + 1], "¶");
             tempBoard[game.Item.Position[1] + 1] = PrintSymbol(game.Item.Position, tempBoard[game.Item.Position[1] + 1], game.Item.Type);

@@ -12,14 +12,14 @@ namespace DungeonGame
         public string Messages = "";
         public int Floor = 0;
         public int[] BoardSize = [40, 20]; 
-        public Player Player { get; set; } = new Player([0, 0], 100, 20, 10);
+        public Player Player { get; set; } = new([0, 0], 100, 20, 10);
         public List<Monster> Monsters { get; set; } = [];
-        public Door Door { get; set; } = new Door([0, 0]);
-        public Item Item { get; set; } = new Item([0, 0], " ");
+        public Door Door { get; set; } = new([0, 0]);
+        public Item Item { get; set; } = new([0, 0], " ");
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;
         public string FightMessage = "";
-        private readonly Random random = new Random();
+        private readonly Random random = new();
         
         public void Press(ConsoleKey key)
         {
@@ -80,7 +80,7 @@ namespace DungeonGame
             ItemSetup();
         }
 
-        private void MonsterTurn()
+        public void MonsterTurn()
         {
             foreach (var monster in Monsters)
             {
@@ -100,9 +100,13 @@ namespace DungeonGame
             FightMode = MonsterOverlapCheck(Player.Position);
         }
 
-        private bool Fight()
+        public bool Fight()
         {
-            Monster monster = Monsters.Find(x => x.id == FightMode);
+            Monster? monster = Monsters.Find(x => x.Id == FightMode);
+            if(monster == null)
+            {
+                return false;
+            }
             if(monster.Hp == 0)
             {
                 FightMode = -1;
@@ -134,7 +138,7 @@ namespace DungeonGame
             return Player.Hp > 0;
         }
 
-        private bool DirectionCheck(Direction direction, int[] position)
+        public bool DirectionCheck(Direction direction, int[] position)
         {
             switch (direction)
             {
@@ -158,14 +162,14 @@ namespace DungeonGame
             return true;
         }
 
-        private void NextFloor()
+        public void NextFloor()
         {
             Floor++;
             Setup();
             Messages = "You have reached Floor " + Floor;
         }
 
-        private void ItemSetup()
+        public void ItemSetup()
         {
             Item.Position = GetRandomPosition();
             switch (random.Next(3))
@@ -182,7 +186,7 @@ namespace DungeonGame
             }
         }
 
-        private int[] GetRandomPosition()
+        public int[] GetRandomPosition()
         {
             int xPos, yPos;
             do
@@ -202,19 +206,19 @@ namespace DungeonGame
             }
         }
 
-        private int MonsterOverlapCheck(int[] position)
+        public int MonsterOverlapCheck(int[] position)
         {
             foreach (Monster monster in Monsters)
             {
                 if(monster.OnSameSpot(position))
                 {
-                    return monster.id;
+                    return monster.Id;
                 }
             }
             return -1;
         }
 
-        private int[] GetNewPosition(int[] position, Direction direction)
+        public int[] GetNewPosition(int[] position, Direction direction)
         {
             switch (direction)
             {

@@ -14,7 +14,7 @@ namespace DungeonGame.Tests
             int expectedCritchance = 20;
 
             //Act
-            Fighter actualFighter = new Fighter([0, 1], 100, 10, 20);
+            Fighter actualFighter = new([0, 1], 100, 10, 20);
 
             //Assert
             Assert.Equal(expectedHp, actualFighter.Hp);
@@ -27,7 +27,7 @@ namespace DungeonGame.Tests
         public void AttackNoCritTest()
         {
             //Arrange
-            Fighter testFighter = new Fighter([0,0],100,10,20);
+            Fighter testFighter = new([0,0],100,10,20);
             int expectedDamage = 10;
 
             //Act
@@ -42,7 +42,7 @@ namespace DungeonGame.Tests
         public void AttackCritTest()
         {
             //Arrange
-            Fighter testFighter = new Fighter([0, 0], 100, 10, 20);
+            Fighter testFighter = new([0, 0], 100, 10, 20);
             int expectedDamage = 20;
 
             //Act
@@ -56,7 +56,7 @@ namespace DungeonGame.Tests
         public void DefendTestAlive()
         {
             //Arrange
-            Fighter testFighter = new Fighter([0, 0], 100, 10, 20);
+            Fighter testFighter = new([0, 0], 100, 10, 20);
             int expectedHp = 80;
 
             //Act
@@ -71,7 +71,7 @@ namespace DungeonGame.Tests
         public void DefendTestDead()
         {
             //Arrange
-            Fighter testFighter = new Fighter([0, 0], 10, 10, 20);
+            Fighter testFighter = new([0, 0], 10, 10, 20);
             int expectedHp = 0;
 
             //Act
