@@ -1,12 +1,12 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Placeable(int[] _position)
+    public class Placeable(Position _position)
     {
-        public int[] Position { get; set; } = _position;
+        public Position Position { get; set; } = _position;
 
-        public bool OnSameSpot(int[] spot)
+        public bool OnSameSpot(Position spot)
         {
-            return Position[0] == spot[0] && Position[1] == spot[1];
+            return Position.X == spot.X && Position.Y == spot.Y;
         }
         
         public void Move(Direction direction)
@@ -14,16 +14,16 @@
             switch (direction)
             {
                 case Direction.Left:
-                    Position[0]--;
+                    Position.X--;
                     break;
                 case Direction.Right:
-                    Position[0]++;
+                    Position.X++;
                     break;
                 case Direction.Up:
-                    Position[1]--;
+                    Position.Y--;
                     break;
                 case Direction.Down:
-                    Position[1]++;
+                    Position.Y++;
                     break;
             }
         }

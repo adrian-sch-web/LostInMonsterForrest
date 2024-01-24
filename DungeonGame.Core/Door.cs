@@ -1,6 +1,6 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Door(int[] _position): Placeable(_position)
+    public class Door(Position _position): Placeable(_position)
     {
     }
 }

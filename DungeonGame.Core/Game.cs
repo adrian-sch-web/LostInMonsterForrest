@@ -5,9 +5,9 @@
         public string Messages = "";
         public int Floor = 0;
         public int[] BoardSize = [40, 20]; 
-        public Player Player { get; set; } = new([0, 0], 100, 20, 10);
+        public Player Player { get; set; } = new(new Position(), 100, 20, 10);
         public List<Monster> Monsters { get; set; } = [];
-        public Door Door { get; set; } = new([0, 0]);
+        public Door Door { get; set; } = new(new Position());
         public List<Item> Items { get; set; } = [];
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;
@@ -80,7 +80,7 @@
                 {
                     direction = (Direction)random.Next(4);
                 } while (!DirectionCheck(direction, monster.Position));
-                int[] newPosition = GetNewPosition(monster.Position, direction);
+                Position newPosition = GetNewPosition(monster.Position, direction);
                 
                 if (OverlappingMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnItem(newPosition) != -1)
                 {
@@ -129,24 +129,24 @@
             return Player.Hp > 0;
         }
 
-        public bool DirectionCheck(Direction direction, int[] position)
+        public bool DirectionCheck(Direction direction, Position position)
         {
             switch (direction)
             {
                 case Direction.Left:
-                    if (position[0] == 0)
+                    if (position.X == 0)
                         return false;
                     break;
                 case Direction.Right:
-                    if (position[0] == BoardSize[0] - 1)
+                    if (position.X == BoardSize[0] - 1)
                         return false;
                     break;
                 case Direction.Up:
-                    if (position[1] == 0)
+                    if (position.Y == 0)
                         return false;
                     break;
                 case Direction.Down:
-                    if (position[1] == BoardSize[1] - 1)
+                    if (position.Y == BoardSize[1] - 1)
                         return false;
                     break;
             }
@@ -160,15 +160,17 @@
             Messages = "You have reached Floor " + Floor;
         }
 
-        public int[] GetRandomPosition()
+        public Position GetRandomPosition()
         {
             int xPos, yPos;
+            Position newPosition;
             do
             {
                 xPos = random.Next(BoardSize[0]);
                 yPos = random.Next(BoardSize[1]);
-            } while (Player.OnSameSpot([xPos, yPos]) || OverlappingMonster([xPos, yPos]) != -1 || Door.OnSameSpot([xPos,yPos]));
-            return [xPos, yPos];
+                newPosition = new Position(xPos, yPos);
+            } while (Player.OnSameSpot(newPosition) || OverlappingMonster(new Position(0, 0)) != -1 || Door.OnSameSpot(newPosition));
+            return newPosition;
         }
 
         private void MonsterSetup(int amount)
@@ -176,7 +178,7 @@
             Monsters = [];
             for(int i = 0; i < amount; i++)
             {
-                int[] position = GetRandomPosition(); 
+                Position position = GetRandomPosition(); 
                 Monsters.Add(Monster.CreateMonster(i + 1 , (MonsterType) random.Next(3), position));
             }
         }
@@ -186,13 +188,13 @@
             Items = [];
             for(int i = 0; i < amount; i++)
             {
-                int[] position = GetRandomPosition();
+                Position position = GetRandomPosition();
                 Items.Add(Item.CreateItem(i + 1, (ItemType)random.Next(3), position));
             }
 
         }
 
-        public int OverlappingMonster(int[] position)
+        public int OverlappingMonster(Position position)
         {
             foreach (Monster monster in Monsters)
             {
@@ -204,7 +206,7 @@
             return -1;
         }
 
-        public int OnItem(int[] position)
+        public int OnItem(Position position)
         {
             foreach(var item in Items)
             {
@@ -216,18 +218,18 @@
             return -1;
         }
 
-        public int[] GetNewPosition(int[] position, Direction direction)
+        public Position GetNewPosition(Position position, Direction direction)
         {
             switch (direction)
             {
                 case (Direction.Left):
-                    return [position[0] - 1, position[1]];
+                    return new Position(position.X - 1, position.Y);
                 case (Direction.Right):
-                    return [position[0] + 1, position[1]];
+                    return new Position(position.X + 1, position.Y);
                 case (Direction.Up):
-                    return [position[0], position[1] - 1];
+                    return new Position(position.X, position.Y - 1);
                 default:
-                    return [position[0], position[1] + 1];
+                    return new Position(position.X, position.Y + 1);
             }
         }
 

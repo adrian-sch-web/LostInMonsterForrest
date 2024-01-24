@@ -1,11 +1,11 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Monster(int _id,  MonsterType _Type,int[] _Position, int _Hp, int _Damage, int _CritChance) : Fighter(_Position,_Hp,_Damage,_CritChance)
+    public class Monster(int _id,  MonsterType _Type, Position _Position, int _Hp, int _Damage, int _CritChance) : Fighter(_Position,_Hp,_Damage,_CritChance)
     {
         public MonsterType Type { get; } = _Type;
         public int Id { get; } = _id;
 
-        public static Monster CreateMonster(int id, MonsterType type,int[] position)
+        public static Monster CreateMonster(int id, MonsterType type,Position position)
         {
             switch(type)
             {

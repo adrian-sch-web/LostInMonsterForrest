@@ -9,66 +9,72 @@ namespace DungeonGame.Tests
         public void MoveLeft()
         {
             //Arrange
-            Placeable testPlaceable = new([10,10]);
-            int[] expectedPosition = [9, 10];
+            Placeable testPlaceable = new(new Position(10, 10));
+            Position expectedPosition = new(9, 10);
 
             //Act
             testPlaceable.Move(Direction.Left);
 
             //Assert
-            Assert.Equal(expectedPosition, testPlaceable.Position);
+            Assert.Equal(expectedPosition.X, testPlaceable.Position.X);
+            Assert.Equal(expectedPosition.Y, testPlaceable.Position.Y);
+
+
         }
 
         [Fact]
         public void MoveRight()
         {
             //Arrange
-            Placeable testPlaceable = new([10, 10]);
-            int[] expectedPosition = [11, 10];
+            Placeable testPlaceable = new(new Position(10, 10));
+            Position expectedPosition = new(11, 10);
 
             //Act
             testPlaceable.Move(Direction.Right);
 
             //Assert
-            Assert.Equal(expectedPosition, testPlaceable.Position);
+            Assert.Equal(expectedPosition.X, testPlaceable.Position.X);
+            Assert.Equal(expectedPosition.Y, testPlaceable.Position.Y);
         }
 
         [Fact]
         public void MoveUp()
         {
             //Arrange
-            Placeable testPlaceable = new([10, 10]);
-            int[] expectedPosition = [10, 9];
+            Placeable testPlaceable = new(new Position(10, 10));
+            Position expectedPosition = new(10, 9);
 
             //Act
             testPlaceable.Move(Direction.Up);
 
             //Assert
-            Assert.Equal(expectedPosition, testPlaceable.Position);
+            Assert.Equal(expectedPosition.X, testPlaceable.Position.X);
+            Assert.Equal(expectedPosition.Y, testPlaceable.Position.Y);
         }
 
         [Fact]
         public void MoveDown()
         {
             //Arrange
-            Placeable testPlaceable = new([10, 10]);
-            int[] expectedPosition = [10, 11];
+            Placeable testPlaceable = new(new Position(10, 10));
+            Position expectedPosition = new Position(10, 11);
 
             //Act
             testPlaceable.Move(Direction.Down);
 
             //Assert
-            Assert.Equal(expectedPosition, testPlaceable.Position);
+            Assert.Equal(expectedPosition.X, testPlaceable.Position.X);
+            Assert.Equal(expectedPosition.Y, testPlaceable.Position.Y);
         }
 
         [Fact]
         public void SameSpotCheckSuccess()
         {
             //Arrange
-            Placeable testPlaceable = new([3, 6]);
+            Placeable testPlaceable = new(new Position(3, 6));
 
             //Act
-            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+            bool actualResult = testPlaceable.OnSameSpot(new Position(3, 6));
 
             //Assert
             Assert.True(actualResult);
@@ -78,10 +84,10 @@ namespace DungeonGame.Tests
         public void SameSpotCheckFailFull()
         {
             //Arrange
-            Placeable testPlaceable = new([2, 7]);
+            Placeable testPlaceable = new(new Position(2, 7));
 
             //Act
-            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+            bool actualResult = testPlaceable.OnSameSpot(new Position(3, 6));
 
             //Assert
             Assert.False(actualResult);
@@ -91,10 +97,10 @@ namespace DungeonGame.Tests
         public void SameSpotCheckFailHorizontal()
         {
             //Arrange
-            Placeable testPlaceable = new([2, 6]);
+            Placeable testPlaceable = new(new Position(2, 6));
 
             //Act
-            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+            bool actualResult = testPlaceable.OnSameSpot(new Position(3, 6));
 
             //Assert
             Assert.False(actualResult);
@@ -104,10 +110,10 @@ namespace DungeonGame.Tests
         public void SameSpotCheckFailVertical()
         {
             //Arrange
-            Placeable testPlaceable = new([3, 7]);
+            Placeable testPlaceable = new(new Position(3, 7));
 
             //Act
-            bool actualResult = testPlaceable.OnSameSpot([3, 6]);
+            bool actualResult = testPlaceable.OnSameSpot(new Position(3, 6));
 
             //Assert
             Assert.False(actualResult);

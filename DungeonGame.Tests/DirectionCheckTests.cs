@@ -12,7 +12,7 @@ namespace DungeonGame.Tests
             Game game = new();
             
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Left, [1,0]);
+            bool actualResult = game.DirectionCheck(Direction.Left, new Position(1, 0));
 
             //Assert
             Assert.True(actualResult);
@@ -25,7 +25,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Left, [0, 1]);
+            bool actualResult = game.DirectionCheck(Direction.Left, new Position(0, 1));
 
             //Assert
             Assert.False(actualResult);
@@ -38,7 +38,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Right, [game.BoardSize[0] - 2, 10]);
+            bool actualResult = game.DirectionCheck(Direction.Right, new Position(game.BoardSize[0] - 2, 10));
 
             //Assert
             Assert.True(actualResult);
@@ -51,7 +51,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Right, [game.BoardSize[0] - 1, 10]);
+            bool actualResult = game.DirectionCheck(Direction.Right, new Position(game.BoardSize[0] - 1, 10));
 
             //Assert
             Assert.False(actualResult);
@@ -64,7 +64,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Up, [0, 1]);
+            bool actualResult = game.DirectionCheck(Direction.Up, new Position(0, 1));
 
             //Assert
             Assert.True(actualResult);
@@ -77,7 +77,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Up, [1, 0]);
+            bool actualResult = game.DirectionCheck(Direction.Up, new Position(1, 0));
 
             //Assert
             Assert.False(actualResult);
@@ -90,7 +90,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Down, [0, game.BoardSize[1] - 2]);
+            bool actualResult = game.DirectionCheck(Direction.Down, new Position(0, game.BoardSize[1] - 2));
 
             //Assert
             Assert.True(actualResult);
@@ -103,7 +103,7 @@ namespace DungeonGame.Tests
             Game game = new();
 
             //Act
-            bool actualResult = game.DirectionCheck(Direction.Down, [0, game.BoardSize[1] - 1]);
+            bool actualResult = game.DirectionCheck(Direction.Down, new Position(0, game.BoardSize[1] - 1));
 
             Assert.False(actualResult);
         }

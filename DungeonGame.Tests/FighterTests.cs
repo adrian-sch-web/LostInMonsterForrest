@@ -9,26 +9,28 @@ namespace DungeonGame.Tests
         public void CreateFighterTest()
         {
             //Arrange
-            int[] expectedPosition = [0, 1];
+            Position expectedPosition = new Position(0, 1);
             int expectedHp = 100;
             int expectedDamage = 10;
             int expectedCritchance = 20;
 
             //Act
-            Fighter actualFighter = new([0, 1], 100, 10, 20);
+            Fighter actualFighter = new(new Position(0, 1), 100, 10, 20);
 
             //Assert
             Assert.Equal(expectedHp, actualFighter.Hp);
             Assert.Equal(expectedDamage, actualFighter.Damage);
             Assert.Equal(expectedCritchance, expectedCritchance);
-            Assert.Equal(expectedPosition, actualFighter.Position);
+            Assert.Equal(expectedPosition.X, actualFighter.Position.X);
+            Assert.Equal(expectedPosition.Y, actualFighter.Position.Y);
+
         }
 
         [Fact]
         public void AttackNoCritTest()
         {
             //Arrange
-            Fighter testFighter = new([0,0],100,10,20);
+            Fighter testFighter = new(new Position(),100,10,20);
             int expectedDamage = 10;
 
             //Act
@@ -43,7 +45,7 @@ namespace DungeonGame.Tests
         public void AttackCritTest()
         {
             //Arrange
-            Fighter testFighter = new([0, 0], 100, 10, 20);
+            Fighter testFighter = new(new Position(), 100, 10, 20);
             int expectedDamage = 20;
 
             //Act
@@ -57,7 +59,7 @@ namespace DungeonGame.Tests
         public void DefendTestAlive()
         {
             //Arrange
-            Fighter testFighter = new([0, 0], 100, 10, 20);
+            Fighter testFighter = new(new Position(), 100, 10, 20);
             int expectedHp = 80;
 
             //Act
@@ -71,7 +73,7 @@ namespace DungeonGame.Tests
         public void DefendTestDead()
         {
             //Arrange
-            Fighter testFighter = new([0, 0], 10, 10, 20);
+            Fighter testFighter = new(new Position(), 10, 10, 20);
             int expectedHp = 0;
 
             //Act

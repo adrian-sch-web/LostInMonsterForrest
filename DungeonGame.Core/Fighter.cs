@@ -1,6 +1,6 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Fighter(int[] _Position, int _Hp, int _Damage, int _CritChance): Placeable(_Position)
+    public class Fighter(Position _Position, int _Hp, int _Damage, int _CritChance): Placeable(_Position)
     {
         public int Hp { get; set; } = _Hp;
         public int Damage { get; set; } = _Damage;
