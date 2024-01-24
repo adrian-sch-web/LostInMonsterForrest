@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DungeonGame.Core;
 
-namespace DungeonGame
+namespace DungeonGame.UI
 {
     internal class UserInterface
     {
@@ -21,6 +16,7 @@ namespace DungeonGame
             }
             board[size[1] + 1] = board[0];
         }
+
         public void Refresh(Game game)
         {
             Console.Clear();
@@ -63,8 +59,13 @@ namespace DungeonGame
             tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
 
             tempBoard[game.Door.Position[1] + 1] = PrintSymbol(game.Door.Position, tempBoard[game.Door.Position[1] + 1], "¶");
-            tempBoard[game.Item.Position[1] + 1] = PrintSymbol(game.Item.Position, tempBoard[game.Item.Position[1] + 1], game.Item.Type);
             tempBoard[game.Player.Position[1] + 1] = PrintSymbol(game.Player.Position, tempBoard[game.Player.Position[1] + 1], "+");
+
+            foreach(var item in game.Items)
+            {
+                tempBoard[item.Position[1] + 1] = PrintSymbol(item.Position, tempBoard[item.Position[1] + 1], getItemSymbol(item.Type));
+
+            }
 
             foreach ( var monster in game.Monsters)
             {
@@ -78,24 +79,42 @@ namespace DungeonGame
             Console.WriteLine("\n\n" + game.Messages);
         }
 
-        private string getMonsterSymbol(int type)
+        private string getMonsterSymbol(MonsterType type)
         {
             switch (type)
             {
-                case 0:
+                case MonsterType.Giganto:
                     return "§";
-                case 1:
+                case MonsterType.Normalo:
                     return "$";
-                default:
+                case MonsterType.Attacko:
                     return "#";
+                default: 
+                    return " ";
             }
         }
+
+        private string getItemSymbol(ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.Crit:
+                    return "C";
+                case ItemType.Damage:
+                    return "D";
+                case ItemType.Heal:
+                    return "H";
+                default: 
+                    return " ";
+            }
+        }
+
         private string PrintSymbol(int[] position, string line,  string symbol)
         {
             line = string.Concat(line.AsSpan(0, position[0] + 1), symbol, line.AsSpan(position[0] + 2));
             return line;
         }
-        public ConsoleKey WaitUserInput()
+        public Input WaitUserInput()
         {
             ConsoleKeyInfo keyInfo;
             do
@@ -109,7 +128,7 @@ namespace DungeonGame
                 keyInfo.Key != ConsoleKey.DownArrow &&
                 keyInfo.Key != ConsoleKey.Enter
             );
-            return keyInfo.Key;
+            return KeyToInput(keyInfo.Key);
         }
 
         private void Death(Game game)
@@ -117,6 +136,23 @@ namespace DungeonGame
             Console.Clear();
             Console.WriteLine("\n\nGame Over!\n\n\n");
             Console.WriteLine("You died and made it to Floor " + game.Floor + "!");
+        }
+
+        public Input KeyToInput(ConsoleKey key)
+        {
+            switch(key)
+            {
+                case ConsoleKey.LeftArrow:
+                    return Input.Left;
+                case ConsoleKey.RightArrow:
+                    return Input.Right;
+                case ConsoleKey.UpArrow:
+                    return Input.Up;
+                case ConsoleKey.DownArrow:
+                    return Input.Down;
+                default:
+                    return Input.Enter;
+            }
         }
     }
 }

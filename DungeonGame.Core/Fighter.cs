@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonGame
+﻿namespace DungeonGame.Core
 {
     public class Fighter(int[] _Position, int _Hp, int _Damage, int _CritChance): Placeable(_Position)
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DungeonGame.Core;
 using Xunit;
 
 namespace DungeonGame.Tests
@@ -13,7 +9,7 @@ namespace DungeonGame.Tests
         public void DamageUpItemText()
         {
             //Arrange
-            Item testItem = new([0, 0], "D");
+            Item testItem = new(1, ItemType.Damage, [0, 0]);
             string expectedText = "Damage Up";
 
             //Act
@@ -27,7 +23,7 @@ namespace DungeonGame.Tests
         public void CritChanceUpItemText()
         {
             //Arrange
-            Item testItem = new([0, 0], "C");
+            Item testItem = new(1, ItemType.Crit, [0, 0]);
             string expectedText = "Critical Strike Chance Up";
 
             //Act
@@ -41,22 +37,8 @@ namespace DungeonGame.Tests
         public void HealItemText()
         {
             //Arrange
-            Item testItem = new([0, 0], "H");
+            Item testItem = new(1, ItemType.Heal, [0, 0]);
             string expectedText = "Heal";
-
-            //Act
-            string actualText = testItem.Fullname();
-
-            //Assert
-            Assert.Equal(expectedText, actualText);
-        }
-        
-        [Fact]
-        public void ItemGoneText()
-        {
-            //Arrange
-            Item testItem = new([0, 0], "");
-            string expectedText = "";
 
             //Act
             string actualText = testItem.Fullname();

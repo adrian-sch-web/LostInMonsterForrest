@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonGame
+﻿namespace DungeonGame.Core
 {
     public class Player(int[] _Position, int _Hp, int _Damage, int _CritChance) : Fighter(_Position, _Hp, _Damage, _CritChance)
     {
@@ -12,17 +6,14 @@ namespace DungeonGame
         {
             switch(item.Type)
             {
-                case "C":
+                case ItemType.Crit:
                     CritChance += 5;
-                    item.Type = " ";
                     break;
-                case "D":
+                case ItemType.Damage:
                     Damage += 5;
-                    item.Type = " ";
                     break;
-                case "H":
+                case ItemType.Heal:
                     Hp += 5;
-                    item.Type = " ";
                     break;
             }
         }

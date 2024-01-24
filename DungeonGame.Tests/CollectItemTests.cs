@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DungeonGame.Core;
 using Xunit;
 
 namespace DungeonGame.Tests
@@ -15,7 +11,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Player testPlayer = new([0, 0], 10, 10, 10);
-            Item testItem = new([0, 0], "D");
+            Item testItem = new(1 , ItemType.Damage, [0, 0]);
             int expectedHp = 10;
             int expectedDamage = 15;
             int expectedCritChance = 10;
@@ -34,7 +30,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Player testPlayer = new([0, 0], 10, 10, 10);
-            Item testItem = new([0, 0], "C");
+            Item testItem = new(1, ItemType.Crit, [0, 0]);
             int expectedHp = 10;
             int expectedDamage = 10;
             int expectedCritChance = 15;
@@ -53,27 +49,8 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Player testPlayer = new([0, 0], 10, 10, 10);
-            Item testItem = new([0, 0], "H");
+            Item testItem = new(1, ItemType.Heal, [0, 0]);
             int expectedHp = 15;
-            int expectedDamage = 10;
-            int expectedCritChance = 10;
-
-            //Act
-            testPlayer.Collect(testItem);
-
-            //Assert
-            Assert.Equal(expectedHp, testPlayer.Hp);
-            Assert.Equal(expectedDamage, testPlayer.Damage);
-            Assert.Equal(expectedCritChance, testPlayer.CritChance);
-        }
-
-        [Fact]
-        public void CollectEmptyItem()
-        {
-            //Arrange
-            Player testPlayer = new([0, 0], 10, 10, 10);
-            Item testItem = new([0, 0], "");
-            int expectedHp = 10;
             int expectedDamage = 10;
             int expectedCritChance = 10;
 

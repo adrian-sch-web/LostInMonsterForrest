@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonGame
+﻿namespace DungeonGame.Core
 {
     public class Game
     {
@@ -15,29 +8,29 @@ namespace DungeonGame
         public Player Player { get; set; } = new([0, 0], 100, 20, 10);
         public List<Monster> Monsters { get; set; } = [];
         public Door Door { get; set; } = new([0, 0]);
-        public Item Item { get; set; } = new([0, 0], " ");
+        public List<Item> Items { get; set; } = [];
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;
         public string FightMessage = "";
         private readonly Random random = new();
         
-        public void Press(ConsoleKey key)
+        public void Press(Input input)
         {
             Messages = "";
             if (FightMode == -1)
             {
-                if(key == ConsoleKey.Enter)
+                if(input == Input.Enter)
                 {
                     return;
                 }
-                Direction direction = KeyToDirection(key);
+                Direction direction = InputToDirection(input);
                 
                 if (!DirectionCheck(direction, Player.Position))
                 {
                     return;
                 }
                 Player.Move(direction);
-                FightMode = MonsterOverlapCheck(Player.Position);
+                FightMode = OverlappingMonster(Player.Position);
                 if (FightMode != -1) return;
                 
                 if (Door.OnSameSpot(Player.Position))
@@ -45,20 +38,18 @@ namespace DungeonGame
                     NextFloor();
                     return;
                 }
-                if (Item.OnSameSpot(Player.Position))
+
+                Item? item = Items.Find(x => x.Id == OnItem(Player.Position));
+                if (item != null)
                 {
-                    if (Item.Type != " ")
-                    {
-                        Messages = "You collected a " + Item.Fullname() + "!";
-                    }
-                    Player.Collect(Item);
-                    
+                    Player.Collect(item);
+                    Items.Remove(item);
                 }
                 MonsterTurn();
             }
             else
             {
-                if(key != ConsoleKey.Enter)
+                if(input != Input.Enter)
                 {
                     return;
                 }
@@ -77,7 +68,7 @@ namespace DungeonGame
         {
             MonsterSetup(3 + 2 * Floor);
             Door.Position = GetRandomPosition();
-            ItemSetup();
+            ItemSetup(1);
         }
 
         public void MonsterTurn()
@@ -91,13 +82,13 @@ namespace DungeonGame
                 } while (!DirectionCheck(direction, monster.Position));
                 int[] newPosition = GetNewPosition(monster.Position, direction);
                 
-                if (MonsterOverlapCheck(newPosition) != -1 || Door.OnSameSpot(newPosition) || Item.OnSameSpot(newPosition))
+                if (OverlappingMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnItem(newPosition) != -1)
                 {
                     continue;
                 }
                 monster.Move(direction);
             }
-            FightMode = MonsterOverlapCheck(Player.Position);
+            FightMode = OverlappingMonster(Player.Position);
         }
 
         public bool Fight()
@@ -169,23 +160,6 @@ namespace DungeonGame
             Messages = "You have reached Floor " + Floor;
         }
 
-        public void ItemSetup()
-        {
-            Item.Position = GetRandomPosition();
-            switch (random.Next(3))
-            {
-                case 0: 
-                    Item.Type = "C";
-                    break;
-                case 1:
-                    Item.Type = "D";
-                    break;
-                case 2:
-                    Item.Type = "H";
-                    break;
-            }
-        }
-
         public int[] GetRandomPosition()
         {
             int xPos, yPos;
@@ -193,26 +167,50 @@ namespace DungeonGame
             {
                 xPos = random.Next(BoardSize[0]);
                 yPos = random.Next(BoardSize[1]);
-            } while (Player.OnSameSpot([xPos, yPos]) || MonsterOverlapCheck([xPos, yPos]) != -1 || Door.OnSameSpot([xPos,yPos]));
+            } while (Player.OnSameSpot([xPos, yPos]) || OverlappingMonster([xPos, yPos]) != -1 || Door.OnSameSpot([xPos,yPos]));
             return [xPos, yPos];
         }
+
         private void MonsterSetup(int amount)
         {
             Monsters = [];
             for(int i = 0; i < amount; i++)
             {
                 int[] position = GetRandomPosition(); 
-                Monsters.Add(Monster.CreateMonster(i + 1 , random.Next(3), position));
+                Monsters.Add(Monster.CreateMonster(i + 1 , (MonsterType) random.Next(3), position));
             }
         }
 
-        public int MonsterOverlapCheck(int[] position)
+        public void ItemSetup(int amount)
+        {
+            Items = [];
+            for(int i = 0; i < amount; i++)
+            {
+                int[] position = GetRandomPosition();
+                Items.Add(Item.CreateItem(i + 1, (ItemType)random.Next(3), position));
+            }
+
+        }
+
+        public int OverlappingMonster(int[] position)
         {
             foreach (Monster monster in Monsters)
             {
                 if(monster.OnSameSpot(position))
                 {
                     return monster.Id;
+                }
+            }
+            return -1;
+        }
+
+        public int OnItem(int[] position)
+        {
+            foreach(var item in Items)
+            {
+                if (item.OnSameSpot(position))
+                { 
+                    return item.Id;
                 }
             }
             return -1;
@@ -233,15 +231,15 @@ namespace DungeonGame
             }
         }
 
-        private Direction KeyToDirection(ConsoleKey key)
+        private Direction InputToDirection(Input input)
         {
-            switch (key)
+            switch (input)
             {
-                case ConsoleKey.LeftArrow:
+                case Input.Left:
                     return Direction.Left;
-                case ConsoleKey.RightArrow:
+                case Input.Right:
                     return Direction.Right;
-                case ConsoleKey.UpArrow:
+                case Input.Up:
                     return Direction.Up;
                 default:
                     return Direction.Down;

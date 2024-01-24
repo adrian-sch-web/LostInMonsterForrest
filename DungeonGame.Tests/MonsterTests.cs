@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DungeonGame.Core;
 using Xunit;
 
 namespace DungeonGame.Tests
@@ -16,10 +12,10 @@ namespace DungeonGame.Tests
             int expectedHp = 50;
             int expectedDamage = 4;
             int expectedCritChance = 10;
-            int expectedType = 0;
+            MonsterType expectedType = MonsterType.Normalo;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, 0, [0, 0]);
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Normalo, [0, 0]);
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);
@@ -35,10 +31,10 @@ namespace DungeonGame.Tests
             int expectedHp = 100;
             int expectedDamage = 2;
             int expectedCritChance = 20;
-            int expectedType = 1;
+            MonsterType expectedType = MonsterType.Giganto;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, 1, [0, 0]);
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Giganto, [0, 0]);
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);
@@ -54,10 +50,10 @@ namespace DungeonGame.Tests
             int expectedHp = 30;
             int expectedDamage = 10;
             int expectedCritChance = 40;
-            int expectedType = 2;
+            MonsterType expectedType = MonsterType.Attacko;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, 2, [0, 0]);
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Attacko, [0, 0]);
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);

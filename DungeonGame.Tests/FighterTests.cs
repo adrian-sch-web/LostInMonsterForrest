@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using DungeonGame.Core;
+using Xunit;
 
 namespace DungeonGame.Tests
 {
@@ -65,7 +66,6 @@ namespace DungeonGame.Tests
             //Assert
             Assert.Equal(expectedHp, testFighter.Hp);   
         }
-
 
         [Fact]
         public void DefendTestDead()

@@ -1,4 +1,5 @@
-﻿using DungeonGame;
+﻿using DungeonGame.Core;
+using DungeonGame.UI;
 
 Game game = new();
 game.Setup();
