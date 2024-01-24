@@ -4,17 +4,17 @@ namespace DungeonGame.UI
 {
     internal class UserInterface
     {
-        public string[] board;
+        public string[] baseMap;
 
         public UserInterface(int[] size)
         {
-            board = new string[size[1] + 2];
-            board[0] = new string('*', size[0] + 2);
+            baseMap = new string[size[1] + 2];
+            baseMap[0] = new string('*', size[0] + 2);
             for(int i = 0; i < size[1]; i++)
             {
-                board[i + 1] = "*" + new string(' ', size[0]) + "*";
+                baseMap[i + 1] = "*" + new string(' ', size[0]) + "*";
             }
-            board[size[1] + 1] = board[0];
+            baseMap[size[1] + 1] = baseMap[0];
         }
 
         public void Refresh(Game game)
@@ -50,31 +50,31 @@ namespace DungeonGame.UI
         }
         private void RefreshBoard(Game game)
         {
-            string[] tempBoard = new string[board.Length];
-            for (int i = 0; i < tempBoard.Length; i++)
+            string[] tempMap = new string[baseMap.Length];
+            for (int i = 0; i < tempMap.Length; i++)
             {
-                tempBoard[i] = board[i];
+                tempMap[i] = baseMap[i];
             }
             string floor = "Floor " + game.Floor;
-            tempBoard[0] = String.Concat("*" , floor, tempBoard[0].AsSpan(floor.Length + 1));
+            tempMap[0] = String.Concat("*" , floor, tempMap[0].AsSpan(floor.Length + 1));
 
-            tempBoard[game.Door.Position.Y + 1] = PrintSymbol(game.Door.Position, tempBoard[game.Door.Position.Y + 1], "¶");
-            tempBoard[game.Player.Position.Y + 1] = PrintSymbol(game.Player.Position, tempBoard[game.Player.Position.Y + 1], "+");
+            tempMap[game.Door.Position.Y + 1] = PrintSymbol(game.Door.Position, tempMap[game.Door.Position.Y + 1], "¶");
+            tempMap[game.Player.Position.Y + 1] = PrintSymbol(game.Player.Position, tempMap[game.Player.Position.Y + 1], "+");
 
             foreach(var item in game.Items)
             {
-                tempBoard[item.Position.Y + 1] = PrintSymbol(item.Position, tempBoard[item.Position.Y + 1], getItemSymbol(item.Type));
+                tempMap[item.Position.Y + 1] = PrintSymbol(item.Position, tempMap[item.Position.Y + 1], getItemSymbol(item.Type));
 
             }
 
             foreach ( var monster in game.Monsters)
             {
-                tempBoard[monster.Position.Y + 1] = PrintSymbol(monster.Position, tempBoard[monster.Position.Y + 1], getMonsterSymbol(monster.Type));
+                tempMap[monster.Position.Y + 1] = PrintSymbol(monster.Position, tempMap[monster.Position.Y + 1], getMonsterSymbol(monster.Type));
             }
 
-            for(int i = 0; i < tempBoard.Length; i++) 
+            for(int i = 0; i < tempMap.Length; i++) 
             {
-                Console.WriteLine(tempBoard[i]);
+                Console.WriteLine(tempMap[i]);
             }
             Console.WriteLine("\n\n" + game.Messages);
         }
