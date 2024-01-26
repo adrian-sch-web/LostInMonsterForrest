@@ -38,7 +38,7 @@ namespace DungeonGame.Tests
             Map map = new();
 
             //Act
-            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size[0] - 2, 10));
+            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size.X - 2, 10));
 
             //Assert
             Assert.True(actualResult);
@@ -51,7 +51,7 @@ namespace DungeonGame.Tests
             Map map = new();
 
             //Act
-            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size[0] - 1, 10));
+            bool actualResult = map.DirectionCheck(Direction.Right, new Position(map.Size.X - 1, 10));
 
             //Assert
             Assert.False(actualResult);
@@ -90,7 +90,7 @@ namespace DungeonGame.Tests
             Map map = new();
 
             //Act
-            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size[1] - 2));
+            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size.Y - 2));
 
             //Assert
             Assert.True(actualResult);
@@ -103,7 +103,7 @@ namespace DungeonGame.Tests
             Map map = new();
 
             //Act
-            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size[1] - 1));
+            bool actualResult = map.DirectionCheck(Direction.Down, new Position(0, map.Size.Y - 1));
 
             Assert.False(actualResult);
         }

@@ -3,7 +3,9 @@
     public class Game
     {
         public int Floor = 0;
-        public Map Map = new Map();
+        public int Kills = 0;
+        public int Steps = 0;
+        public Map Map = new();
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;        //Index of monster in fight -1 if not in fight
         public Attack[] Attacks = [];
@@ -35,10 +37,10 @@
             {
                 return;
             }
+            Steps++;
             Map.Player.Move(direction);
-
-            CollisionChecks();
-            if (FightMode != -1)
+             
+            if (CollisionChecks())
             {
                 return;
             }
@@ -64,12 +66,12 @@
             }
         }
 
-        public void CollisionChecks()
+        public bool CollisionChecks()
         {
             FightMode = Map.OnMonster(Map.Player.Position);
             if (FightMode != -1)
             {
-                return;
+                return true;
             }
 
             Item? item = Map.Items.Find(x => x.Id == Map.OnItem(Map.Player.Position));
@@ -77,24 +79,27 @@
             {
                 Map.Player.Collect(item);
                 Map.Items.Remove(item);
-                return;
+                return false;
             }
 
             if (Map.Door.OnSameSpot(Map.Player.Position))
             {
                 NextFloor();
+                return true;
             }
+            return false;
         }
 
         public void MonsterTurn()
         {
             foreach (var monster in Map.Monsters)
             {
-                Direction direction = Direction.Idle;
+                Direction direction;
                 if (monster.Distance(Map.Player.Position) < 5)
                 {
                     for (int i = 0; i < 2; i++)
                     {
+                        direction = Direction.Idle;
                         List<Direction> directions = monster.OptimalMove(Map.Player.Position);
                         if (directions.Count > 0)
                         {
@@ -139,6 +144,7 @@
                 RiskyAttack = false;
                 Attacks = [];
                 Map.Monsters.Remove(monster);
+                Kills++;
                 return false;
             }
             Attack playerAttack = new();
@@ -170,7 +176,7 @@
             }
             else
             {
-                Map.Player.Defend(playerAttack.Damage);
+                Map.Player.Defend(monsterAttack.Damage);
             }
             Attacks = [playerAttack, monsterAttack];
             return Map.Player.Hp > 0;
@@ -186,8 +192,10 @@
                     return new Position(position.X + 1, position.Y);
                 case (Direction.Up):
                     return new Position(position.X, position.Y - 1);
-                default:
+                case Direction.Down:
                     return new Position(position.X, position.Y + 1);
+                default:
+                    return position;
             }
         }
 
@@ -201,8 +209,10 @@
                     return Direction.Right;
                 case Input.Up:
                     return Direction.Up;
-                default:
+                case Input.Down:
                     return Direction.Down;
+                default:
+                    return Direction.Idle;
             }
         }
         public void NextFloor()

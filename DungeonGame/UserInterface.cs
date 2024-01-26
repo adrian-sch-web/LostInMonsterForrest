@@ -6,15 +6,25 @@ namespace DungeonGame.UI
     {
         public string[] baseMap;
 
-        public UserInterface(int[] size)
+        public UserInterface(Position size)
         {
-            baseMap = new string[size[1] + 2];
-            baseMap[0] = new string('*', size[0] + 2);
-            for(int i = 0; i < size[1]; i++)
+            baseMap = new string[size.Y + 2];
+            baseMap[0] = new string('*', size.X + 2);
+            for(int i = 0; i < size.Y; i++)
             {
-                baseMap[i + 1] = "*" + new string(' ', size[0]) + "*";
+                baseMap[i + 1] = "*" + new string(' ', size.X) + "*";
             }
-            baseMap[size[1] + 1] = baseMap[0];
+            baseMap[size.Y + 1] = baseMap[0];
+            baseMap[2] = baseMap[2] + "    Legend:";
+            baseMap[3] = baseMap[3] + "    *************";
+            baseMap[4] = baseMap[4] + "    * + You     *";
+            baseMap[5] = baseMap[5] + "    * ¶ Door    *";
+            baseMap[6] = baseMap[6] + "    *           *";
+            baseMap[7] = baseMap[7] + "    * Monsters: *";
+            baseMap[8] = baseMap[8] + "    * § Giganto *";
+            baseMap[9] = baseMap[9] + "    * $ Normalo *";
+            baseMap[10] = baseMap[10] + "    * # Attacko *";
+            baseMap[11] = baseMap[11] + "    *************";
         }
 
         public void Refresh(Game game)
@@ -68,8 +78,8 @@ namespace DungeonGame.UI
             {
                 tempMap[i] = baseMap[i];
             }
-            string floor = "Floor " + game.Floor;
-            tempMap[0] = String.Concat("*" , floor, tempMap[0].AsSpan(floor.Length + 1));
+            string topInfo = "*****Floor " + game.Floor + "*****Steps: " + game.Steps +  "*****Kills " + game.Kills;
+            tempMap[0] = String.Concat(topInfo, tempMap[0].AsSpan(topInfo.Length));
 
             tempMap[game.Map.Door.Position.Y + 1] = PrintSymbol(game.Map.Door.Position, tempMap[game.Map.Door.Position.Y + 1], "¶");
             tempMap[game.Map.Player.Position.Y + 1] = PrintSymbol(game.Map.Player.Position, tempMap[game.Map.Player.Position.Y + 1], "+");
@@ -101,8 +111,8 @@ namespace DungeonGame.UI
                     return "$";
                 case MonsterType.Attacko:
                     return "#";
-                default: 
-                    return " ";
+                default:
+                    throw new Exception("Invalid Monster Type");
             }
         }
 
@@ -116,8 +126,8 @@ namespace DungeonGame.UI
                     return "D";
                 case ItemType.Heal:
                     return "H";
-                default: 
-                    return " ";
+                default:
+                    throw new Exception("Invalid Item Type");
             }
         }
 
@@ -182,6 +192,8 @@ namespace DungeonGame.UI
             Console.Clear();
             Console.WriteLine("\n\nGame Over!\n\n\n");
             Console.WriteLine("You died and made it to Floor " + game.Floor + "!");
+            Console.WriteLine("On your way through the dungeon you made " + game.Steps + " steps.");
+            Console.WriteLine(game.Kills + " cruel Monsters were defeated by you!");
         }
 
         public Input KeyToInput(ConsoleKey key)
@@ -196,8 +208,10 @@ namespace DungeonGame.UI
                     return Input.Up;
                 case ConsoleKey.DownArrow:
                     return Input.Down;
-                default:
+                case ConsoleKey.Enter:
                     return Input.Enter;
+                default:
+                    throw new Exception("Invalid Key");
             }
         }
     }

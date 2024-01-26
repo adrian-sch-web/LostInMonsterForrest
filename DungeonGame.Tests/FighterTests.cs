@@ -87,5 +87,20 @@ namespace DungeonGame.Tests
             //Assert
             Assert.Equal(expectedHp, testFighter.Hp);
         }
+
+        [Fact]
+        public void WeakDefendTestAlive()
+        {
+            //Arrange
+            Fighter testFighter = new(new Position(), 100, 10, 20);
+            int expectedHp = 70;
+
+            //Act
+            testFighter.WeakDefend(20);
+
+            //Assert
+            Assert.Equal(expectedHp, testFighter.Hp);
+
+        }
     }
 }

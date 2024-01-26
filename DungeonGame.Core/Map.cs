@@ -2,7 +2,7 @@
 {
     public class Map
     {
-        public int[] Size = [40, 20];
+        public Position Size = new(40, 20);
         public Player Player { get; set; } = new(new Position(), 100, 20, 10);
         public List<Monster> Monsters { get; set; } = [];
         public Door Door { get; set; } = new(new Position());
@@ -18,7 +18,7 @@
                         return false;
                     break;
                 case Direction.Right:
-                    if (position.X == Size[0] - 1)
+                    if (position.X == Size.X - 1)
                         return false;
                     break;
                 case Direction.Up:
@@ -26,7 +26,7 @@
                         return false;
                     break;
                 case Direction.Down:
-                    if (position.Y == Size[1] - 1)
+                    if (position.Y == Size.Y - 1)
                         return false;
                     break;
             }
@@ -70,10 +70,10 @@
             Position newPosition;
             do
             {
-                xPos = random.Next(Size[0]);
-                yPos = random.Next(Size[1]);
+                xPos = random.Next(Size.X);
+                yPos = random.Next(Size.Y);
                 newPosition = new Position(xPos, yPos);
-            } while (Player.OnSameSpot(newPosition) || OnMonster(new Position(0, 0)) != -1 || Door.OnSameSpot(newPosition));
+            } while (Player.OnSameSpot(newPosition) || OnMonster(newPosition) != -1 || Door.OnSameSpot(newPosition));
             return newPosition;
         }
 
