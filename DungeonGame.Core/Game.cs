@@ -93,29 +93,37 @@
                 Direction direction = Direction.Idle;
                 if (monster.Distance(Map.Player.Position) < 5)
                 {
-                    List<Direction> directions = monster.OptimalMove(Map.Player.Position);
-                    if (directions.Count > 0)
+                    for (int i = 0; i < 2; i++)
                     {
-                        direction = directions[random.Next(directions.Count)];
+                        List<Direction> directions = monster.OptimalMove(Map.Player.Position);
+                        if (directions.Count > 0)
+                        {
+                            direction = directions[random.Next(directions.Count)];
+                        }
+                        Move(monster, direction);
                     }
                 }
-
                 else
                 {
                     do
                     {
                         direction = (Direction)random.Next(4);
                     } while (!Map.DirectionCheck(direction, monster.Position));
+                    Move(monster, direction);
                 }
-                Position newPosition = GetNewPosition(monster.Position, direction);
-                
-                if (Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
-                {
-                    continue;
-                }
-                monster.Move(direction);
             }
             FightMode = Map.OnMonster(Map.Player.Position);
+        }
+        
+        public void Move(Monster monster, Direction direction)
+        {
+            Position newPosition = GetNewPosition(monster.Position, direction);
+
+            if (Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
+            {
+                direction = Direction.Idle;
+            }
+            monster.Move(direction);
         }
 
         public bool Fight()
