@@ -31,13 +31,15 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(),100,10,20);
+            Attack attack = new();
             int expectedDamage = 10;
 
             //Act
-            int actualDamage = testFighter.Attack(50);
+            Attack actualAttack = testFighter.Attack(50,attack);
 
             //Assert
-            Assert.Equal(expectedDamage, actualDamage);
+            Assert.Equal(expectedDamage, actualAttack.Damage);
+            Assert.False(attack.CriticalStrike);
 
         }
 
@@ -46,13 +48,16 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(), 100, 10, 20);
+            Attack attack = new();
             int expectedDamage = 20;
 
             //Act
-            int actualDamage = testFighter.Attack(81);
+            Attack actualDamage = testFighter.Attack(19,attack);
 
             //Assert
-            Assert.Equal(expectedDamage, actualDamage);
+            Assert.Equal(expectedDamage, actualDamage.Damage);
+            Assert.True(attack.CriticalStrike);
+
         }
 
         [Fact]

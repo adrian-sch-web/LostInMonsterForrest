@@ -5,6 +5,29 @@
         public MonsterType Type { get; } = _Type;
         public int Id { get; } = _id;
 
+        public List<Direction> OptimalMove(Position destination)
+        {
+            List<Direction> possibleDirections = [];
+
+            if (Position.X > destination.X)
+            {
+                possibleDirections.Add(Direction.Left);
+            }
+            if(Position.X < destination.X)
+            {
+                possibleDirections.Add(Direction.Right);
+            }
+            if(Position.Y > destination.Y)
+            {
+                possibleDirections.Add(Direction.Up);
+            }
+            if (Position.Y < destination.Y)
+            {
+                possibleDirections.Add(Direction.Down);
+            }
+            return possibleDirections;
+        }
+
         public static Monster CreateMonster(int id, MonsterType type,Position position)
         {
             switch(type)

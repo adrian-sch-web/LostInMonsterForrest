@@ -9,11 +9,11 @@ namespace DungeonGame.Tests
         public void MonsterOverlapTestSuccess()
         {
             //Arrange
-            Game game = new();
-            game.Map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(1, 1)));
+            Map map = new();
+            map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(1, 1)));
 
             //Act
-            int actualOverlap = game.OnMonster(new Position(1, 1));
+            int actualOverlap = map.OnMonster(new Position(1, 1));
 
             //Assert
             Assert.Equal(1, actualOverlap);
@@ -23,13 +23,13 @@ namespace DungeonGame.Tests
         public void MonsterOverlapTestFail()
         {
             //Arrange
-            Game game = new();
-            game.Map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(0, 1)));
-            game.Map.Monsters.Add(Monster.CreateMonster(2, 0, new Position(1, 0)));
-            game.Map.Monsters.Add(Monster.CreateMonster(3, 0, new Position()));
+            Map map = new();
+            map.Monsters.Add(Monster.CreateMonster(1, 0, new Position(0, 1)));
+            map.Monsters.Add(Monster.CreateMonster(2, 0, new Position(1, 0)));
+            map.Monsters.Add(Monster.CreateMonster(3, 0, new Position()));
 
             //Act
-            int actualOverlap = game.OnMonster(new Position(1, 1));
+            int actualOverlap = map.OnMonster(new Position(1, 1));
 
             //Assert
             Assert.Equal(-1, actualOverlap);

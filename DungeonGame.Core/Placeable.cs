@@ -9,6 +9,11 @@
             return Position.X == spot.X && Position.Y == spot.Y;
         }
         
+        public int Distance(Position spot)
+        {
+            return Math.Abs(Position.X - spot.X) + Math.Abs(Position.Y - spot.Y) ;
+        }
+
         public void Move(Direction direction)
         {
             switch (direction)

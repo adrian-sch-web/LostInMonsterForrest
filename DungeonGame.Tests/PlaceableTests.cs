@@ -118,5 +118,61 @@ namespace DungeonGame.Tests
             //Assert
             Assert.False(actualResult);
         }
+
+        [Fact]
+        public void DistanceCheckSameSpot()
+        {
+            //Arrange
+            Placeable testPlaceable = new(new Position(1,1));
+            int expectedDistance = 0;
+
+            //Act
+            int actualDistance = testPlaceable.Distance(new Position(1, 1));
+
+            //Assert
+            Assert.Equal(expectedDistance, actualDistance);
+        }
+
+        [Fact]
+        public void DistanceCheckHorizontal()
+        {
+            //Arrange
+            Placeable testPlaceable = new(new Position());
+            int expectedDistance = 2;
+
+            //Act
+            int actualDistance = testPlaceable.Distance(new Position(2, 0));
+
+            //Assert
+            Assert.Equal(expectedDistance, actualDistance);
+        }
+
+        [Fact]
+        public void DistanceCheckVertical()
+        {
+            //Arrange
+            Placeable testPlaceable = new(new Position(0,2));
+            int expectedDistance = 2;
+
+            //Act
+            int actualDistance = testPlaceable.Distance(new Position());
+
+            //Assert
+            Assert.Equal(expectedDistance, actualDistance);
+        }
+
+        [Fact]
+        public void DistanceCheckDiagonal()
+        {
+            //Arrange
+            Placeable testPlaceable = new(new Position());
+            int expectedDistance = 4;
+
+            //Act
+            int actualDistance = testPlaceable.Distance(new Position(2, 2));
+
+            //Assert
+            Assert.Equal(expectedDistance, actualDistance);
+        }
     }
 }
