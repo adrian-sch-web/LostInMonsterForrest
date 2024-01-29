@@ -7,7 +7,7 @@ UserInterface UI = new(game.Map.Size);
 UI.Refresh(game);
 while (game.IsRunning)
 {
-    game.Press(UI.WaitUserInput());
+    game.Press(UI.WaitUserInput(game));
     UI.Refresh(game);
 }
 UI.Refresh(game);

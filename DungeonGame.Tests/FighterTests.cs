@@ -31,7 +31,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(),100,10,20);
-            Attack attack = new();
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
             int expectedDamage = 10;
 
             //Act
@@ -48,16 +48,46 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(), 100, 10, 20);
-            Attack attack = new();
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
             int expectedDamage = 20;
 
             //Act
-            Attack actualDamage = testFighter.Attack(19,attack);
+            Attack actualAttack = testFighter.Attack(19,attack);
 
             //Assert
-            Assert.Equal(expectedDamage, actualDamage.Damage);
+            Assert.Equal(expectedDamage, actualAttack.Damage);
             Assert.True(attack.CriticalStrike);
 
+        }
+
+        [Fact]
+        public void RiskyAttackTestMiss()
+        {
+            //Arrange
+            Fighter testFighter = new(new Position(), 100, 10, 10);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            int expectedDamage = 0;
+
+            //Act
+            Attack actualAttack = testFighter.RiskyAttack(0, 9, attack);
+
+            //Assert
+            Assert.Equal(expectedDamage, actualAttack.Damage);
+        }
+
+        [Fact]
+        public void RiskyAttackTestHit()
+        {
+            //Arrange
+            Fighter testFighter = new(new Position(), 100, 10, 10);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            int expectedDamage = 10;
+
+            //Act
+            Attack actualAttack = testFighter.RiskyAttack(20, 11, attack);
+
+            //Assert
+            Assert.Equal(expectedDamage, actualAttack.Damage);
         }
 
         [Fact]

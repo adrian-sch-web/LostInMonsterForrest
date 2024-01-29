@@ -2,14 +2,11 @@
 {
     public class Game
     {
-        public int Floor = 0;
-        public int Kills = 0;
-        public int Steps = 0;
+        public ProgressStats Stats = new();
         public Map Map = new();
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;        //Index of monster in fight -1 if not in fight
         public Attack[] Attacks = [];
-        public bool RiskyAttack { get; set; } = false;
         private readonly Random random = new();
         
         public void Press(Input input)
@@ -26,18 +23,9 @@
 
         public void MoveTurn(Input input)
         {
-            if (input == Input.Enter)
-            {
-                return;
-            }
-
             Direction direction = InputToDirection(input);
 
-            if (!Map.DirectionCheck(direction, Map.Player.Position))
-            {
-                return;
-            }
-            Steps++;
+            Stats.Steps++;
             Map.Player.Move(direction);
              
             if (CollisionChecks())
@@ -50,13 +38,8 @@
 
         public void FightTurn(Input input)
         {
-            if (input != Input.Enter)
-            {
-                RiskyAttack = !RiskyAttack;
-                return;
-            }
             Attacks = [];
-            if (Fight())
+            if (Fight(input))
             {
                 return;
             }
@@ -75,7 +58,7 @@
             }
 
             Item? item = Map.Items.Find(x => x.Id == Map.OnItem(Map.Player.Position));
-            if (item != null)
+            if (item is not null)
             {
                 Map.Player.Collect(item);
                 Map.Items.Remove(item);
@@ -95,7 +78,7 @@
             foreach (var monster in Map.Monsters)
             {
                 Direction direction;
-                if (monster.Distance(Map.Player.Position) < 5)
+                if (monster.Distance(Map.Player.Position) <= 5)
                 {
                     for (int i = 0; i < 2; i++)
                     {
@@ -131,29 +114,26 @@
             monster.Move(direction);
         }
 
-        public bool Fight()
+        public bool Fight(Input input)
         {
             Monster? monster = Map.Monsters.Find(x => x.Id == FightMode);
-            if(monster == null)
+            if(monster is null)
             {
                 return false;
             }
             if(monster.Hp == 0)
             {
                 FightMode = -1;
-                RiskyAttack = false;
                 Attacks = [];
                 Map.Monsters.Remove(monster);
-                Kills++;
+                Stats.Kills++;
                 return false;
             }
-            Attack playerAttack = new();
-            playerAttack.Attacker = true;
-            playerAttack.Monster = monster;
-            if (RiskyAttack)
+            Attack playerAttack = new(monster, true);
+            if (input == Input.RiskyAttack)
             {
                 playerAttack.Risky = true;
-                playerAttack = Map.Player.RiskyAttack(random.Next(100),playerAttack);
+                playerAttack = Map.Player.RiskyAttack(random.Next(100),random.Next(100),playerAttack);
             }
             else
             {
@@ -166,8 +146,7 @@
                 Attacks = [playerAttack];
                 return false;
             }
-            Attack monsterAttack = new();
-            monsterAttack.Monster = monster;
+            Attack monsterAttack = new(monster, false);
             monsterAttack = monster.Attack(random.Next(100),monsterAttack);
             if (playerAttack.Risky)
             {
@@ -217,8 +196,8 @@
         }
         public void NextFloor()
         {
-            Floor++;
-            Map.Setup(Floor);
+            Stats.Floor++;
+            Map.Setup(Stats.Floor);
         }
     }
 }

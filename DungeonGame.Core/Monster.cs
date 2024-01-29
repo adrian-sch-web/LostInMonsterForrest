@@ -39,7 +39,7 @@
                 case MonsterType.Attacko:
                     return new Monster(id, type, position, 30, 10, 40);
                 default:
-                    return null;
+                    throw new Exception("Invalid Monster Type");
             }
         }
     }

@@ -21,8 +21,13 @@
             return attack;
         }
 
-        public Attack RiskyAttack(int critRoll, Attack attack)
+        public Attack RiskyAttack(int critRoll,int hitRoll, Attack attack)
         {
+            if(hitRoll < 10)
+            {
+                attack.Damage = 0;
+                return attack;
+            }
             return Attack(critRoll / 2, attack);
         }
 

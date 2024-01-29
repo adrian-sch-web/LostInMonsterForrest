@@ -4,7 +4,8 @@ namespace DungeonGame.UI
 {
     internal class UserInterface
     {
-        public string[] baseMap;
+        private readonly string[] baseMap;
+        private bool RiskyAttack;
 
         public UserInterface(Position size)
         {
@@ -49,7 +50,7 @@ namespace DungeonGame.UI
         private void RefreshFight(Game game)
         {
             Monster? monster = game.Map.Monsters.Find(x => x.Id == game.FightMode);
-            if(monster == null)
+            if(monster is null)
             {
                 return;
             }
@@ -57,7 +58,7 @@ namespace DungeonGame.UI
             Console.WriteLine("\nYou" + "  vs  " + monster.Type);
             Console.WriteLine("\n" + game.Map.Player.Hp + "      " + monster.Hp);
             Console.WriteLine("\n\n");
-            if (game.RiskyAttack)
+            if (RiskyAttack)
             {
                 Console.WriteLine("Normal Attack    " + "\x1B[4m" + "Risky Attack" + "\x1B[0m");
             }
@@ -78,7 +79,7 @@ namespace DungeonGame.UI
             {
                 tempMap[i] = baseMap[i];
             }
-            string topInfo = "*****Floor " + game.Floor + "*****Steps: " + game.Steps +  "*****Kills " + game.Kills;
+            string topInfo = "*****Floor " + game.Stats.Floor + "*****Steps: " + game.Stats.Steps +  "*****Kills " + game.Stats.Kills;
             tempMap[0] = String.Concat(topInfo, tempMap[0].AsSpan(topInfo.Length));
 
             tempMap[game.Map.Door.Position.Y + 1] = PrintSymbol(game.Map.Door.Position, tempMap[game.Map.Door.Position.Y + 1], "¶");
@@ -138,11 +139,14 @@ namespace DungeonGame.UI
         }
 
         private void PrintAttackMessage(Attack attack)
-        {
-
-            
+        {            
             if (attack.Attacker)
             {
+                if(attack.Damage == 0)
+                {
+                    Console.WriteLine("\n\nOh no, your risky Attack missed the monster");
+                    return;
+                }
                 string risky = "normal";
                 if(attack.Risky) 
                 { 
@@ -170,9 +174,34 @@ namespace DungeonGame.UI
             }
             
         }
-        public Input WaitUserInput()
+        public Input WaitUserInput(Game game)
         {
             ConsoleKeyInfo keyInfo;
+            if (game.FightMode != -1)
+            {
+                do
+                {
+                    keyInfo = Console.ReadKey();
+                }
+                while (
+                    keyInfo.Key != ConsoleKey.LeftArrow &&
+                    keyInfo.Key != ConsoleKey.RightArrow &&
+                    keyInfo.Key != ConsoleKey.Enter
+                );
+                if(keyInfo.Key == ConsoleKey.LeftArrow || keyInfo.Key == ConsoleKey.RightArrow) 
+                {
+                    RiskyAttack = !RiskyAttack;
+                    Refresh(game);
+                    return WaitUserInput(game);
+                }
+                if(RiskyAttack)
+                {
+                    return Input.RiskyAttack;
+                }
+                return Input.NormalAttack;
+            }
+            
+            
             do
             { 
                 keyInfo = Console.ReadKey();
@@ -181,19 +210,48 @@ namespace DungeonGame.UI
                 keyInfo.Key != ConsoleKey.LeftArrow &&
                 keyInfo.Key != ConsoleKey.RightArrow &&
                 keyInfo.Key != ConsoleKey.UpArrow &&
-                keyInfo.Key != ConsoleKey.DownArrow &&
-                keyInfo.Key != ConsoleKey.Enter
+                keyInfo.Key != ConsoleKey.DownArrow
             );
+            if (!MoveCheck(game, keyInfo))
+            {
+                return WaitUserInput(game);
+            }
             return KeyToInput(keyInfo.Key);
+        }
+
+        private bool MoveCheck(Game game, ConsoleKeyInfo keyInfo)
+        {
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.LeftArrow:
+                    if (game.Map.Player.Position.X == 0)
+                        return false;
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (game.Map.Player.Position.X == game.Map.Size.X)
+                        return false;
+                    break;
+                case ConsoleKey.UpArrow:
+                    if (game.Map.Player.Position.Y == 0)
+                        return false;
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (game.Map.Player.Position.Y == game.Map.Size.Y)
+                        return false;
+                    break;
+                default: 
+                    return false;
+            }
+            return true;
         }
 
         private void Death(Game game)
         {
             Console.Clear();
             Console.WriteLine("\n\nGame Over!\n\n\n");
-            Console.WriteLine("You died and made it to Floor " + game.Floor + "!");
-            Console.WriteLine("On your way through the dungeon you made " + game.Steps + " steps.");
-            Console.WriteLine(game.Kills + " cruel Monsters were defeated by you!");
+            Console.WriteLine("You died and made it to Floor " + game.Stats.Floor + "!");
+            Console.WriteLine("On your way through the dungeon you made " + game.Stats.Steps + " steps.");
+            Console.WriteLine(game.Stats.Kills + " cruel Monsters were defeated by you!");
         }
 
         public Input KeyToInput(ConsoleKey key)
@@ -208,8 +266,6 @@ namespace DungeonGame.UI
                     return Input.Up;
                 case ConsoleKey.DownArrow:
                     return Input.Down;
-                case ConsoleKey.Enter:
-                    return Input.Enter;
                 default:
                     throw new Exception("Invalid Key");
             }
