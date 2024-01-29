@@ -9,7 +9,7 @@
         public Attack[] Attacks = [];
         private readonly Random random = new();
         
-        public void Press(Input input)
+        public void Action(Input input)
         {
             if (FightMode == -1)
             {
@@ -39,14 +39,12 @@
         public void FightTurn(Input input)
         {
             Attacks = [];
-            if (Fight(input))
-            {
-                return;
-            }
-            if (Map.Player.Hp == 0)
+            if (Map.Player.Hp <= 0)
             {
                 IsRunning = false;
+                return;
             }
+            Fight(input);
         }
 
         public bool CollisionChecks()
@@ -105,7 +103,7 @@
         
         public void Move(Monster monster, Direction direction)
         {
-            Position newPosition = GetNewPosition(monster.Position, direction);
+            Position newPosition = monster.Position.GetNeighbourPosition(direction);
 
             if (Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
             {
@@ -161,38 +159,16 @@
             return Map.Player.Hp > 0;
         }
 
-        public Position GetNewPosition(Position position, Direction direction)
-        {
-            switch (direction)
-            {
-                case (Direction.Left):
-                    return new Position(position.X - 1, position.Y);
-                case (Direction.Right):
-                    return new Position(position.X + 1, position.Y);
-                case (Direction.Up):
-                    return new Position(position.X, position.Y - 1);
-                case Direction.Down:
-                    return new Position(position.X, position.Y + 1);
-                default:
-                    return position;
-            }
-        }
-
         private Direction InputToDirection(Input input)
         {
-            switch (input)
+            return input switch
             {
-                case Input.Left:
-                    return Direction.Left;
-                case Input.Right:
-                    return Direction.Right;
-                case Input.Up:
-                    return Direction.Up;
-                case Input.Down:
-                    return Direction.Down;
-                default:
-                    return Direction.Idle;
-            }
+                Input.Left => Direction.Left,
+                Input.Right => Direction.Right,
+                Input.Up => Direction.Up,
+                Input.Down => Direction.Down,
+                _ => Direction.Idle,
+            };
         }
         public void NextFloor()
         {

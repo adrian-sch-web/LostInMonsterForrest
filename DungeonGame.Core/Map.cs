@@ -4,9 +4,10 @@
     {
         public Position Size = new(40, 20);
         public Player Player { get; set; } = new(new Position(), 100, 20, 20);
-        public List<Monster> Monsters { get; set; } = [];
         public Door Door { get; set; } = new(new Position());
+        public List<Monster> Monsters { get; set; } = [];
         public List<Item> Items { get; set; } = [];
+
         private readonly Random random = new();
 
         public bool DirectionCheck(Direction direction, Position position)

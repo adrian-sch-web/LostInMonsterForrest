@@ -30,17 +30,13 @@
 
         public static Monster CreateMonster(int id, MonsterType type,Position position)
         {
-            switch(type)
+            return type switch
             {
-                case MonsterType.Giganto:
-                    return new Monster(id, type, position, 100, 2, 20);
-                case MonsterType.Normalo:
-                    return new Monster(id, type, position, 50, 4, 10);
-                case MonsterType.Attacko:
-                    return new Monster(id, type, position, 30, 10, 40);
-                default:
-                    throw new Exception("Invalid Monster Type");
-            }
+                MonsterType.Giganto => new Monster(id, type, position, 100, 2, 20),
+                MonsterType.Normalo => new Monster(id, type, position, 50, 4, 10),
+                MonsterType.Attacko => new Monster(id, type, position, 30, 10, 40),
+                _ => throw new Exception("Invalid Monster Type"),
+            };
         }
     }
 
