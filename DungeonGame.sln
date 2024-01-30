@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.UI", "DungeonGa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.Tests", "DungeonGame.Tests\DungeonGame.Tests.csproj", "{E8B19304-F58C-4293-BA9F-EEC43D06ADFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGame.Core", "DungeonGame.Core\DungeonGame.Core.csproj", "{BB895E2A-0944-4E21-AEBA-B9328A1C96C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.Core", "DungeonGame.Core\DungeonGame.Core.csproj", "{BB895E2A-0944-4E21-AEBA-B9328A1C96C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGame.WebAPI", "DungeonGame.WebAPI\DungeonGame.WebAPI.csproj", "{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BB895E2A-0944-4E21-AEBA-B9328A1C96C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB895E2A-0944-4E21-AEBA-B9328A1C96C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB895E2A-0944-4E21-AEBA-B9328A1C96C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

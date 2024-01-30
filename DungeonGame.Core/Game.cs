@@ -9,6 +9,10 @@
         public Attack[] Attacks = [];
         private readonly Random random = new();
         
+        public Game() 
+        {
+            Map.Setup(0);
+        }
         public void Action(Input input)
         {
             if (FightMode == -1)

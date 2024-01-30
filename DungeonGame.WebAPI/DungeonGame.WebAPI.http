@@ -1,0 +1,6 @@
+@DungeonGame.WebAPI_HostAddress = http://localhost:5113
+
+GET {{DungeonGame.WebAPI_HostAddress}}/DungeonGame/
+Accept: application/json
+
+###
