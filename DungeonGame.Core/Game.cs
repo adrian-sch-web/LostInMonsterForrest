@@ -17,17 +17,17 @@
         {
             if (FightMode == -1)
             {
-                MoveTurn(input);
+                Direction direction = InputToDirection(input);
+                MoveTurn(direction);
             }
             else
             {
-                FightTurn(input);
+                FightTurn(input == Input.RiskyAttack);
             }
         }
 
-        public void MoveTurn(Input input)
+        public void MoveTurn(Direction direction)
         {
-            Direction direction = InputToDirection(input);
 
             Stats.Steps++;
             Map.Player.Move(direction);
@@ -40,7 +40,7 @@
             MonsterTurn();
         }
 
-        public void FightTurn(Input input)
+        public void FightTurn(bool risky)
         {
             Attacks = [];
             if (Map.Player.Hp <= 0)
@@ -48,7 +48,7 @@
                 IsRunning = false;
                 return;
             }
-            Fight(input);
+            Fight(risky);
         }
 
         public bool CollisionChecks()
@@ -116,7 +116,7 @@
             monster.Move(direction);
         }
 
-        public bool Fight(Input input)
+        public bool Fight(bool risky)
         {
             Monster? monster = Map.Monsters.Find(x => x.Id == FightMode);
             if(monster is null)
@@ -132,7 +132,7 @@
                 return false;
             }
             Attack playerAttack = new(monster, true);
-            if (input == Input.RiskyAttack)
+            if (risky)
             {
                 playerAttack.Risky = true;
                 playerAttack = Map.Player.RiskyAttack(random.Next(100),random.Next(100),playerAttack);

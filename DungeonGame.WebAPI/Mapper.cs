@@ -10,7 +10,22 @@ namespace DungeonGame.WebAPI
             return dto;
         }
 
-        public AttackDto Map(Attack attack)
+        public GameUpdateDto Map(Game game)
+        {
+            var dto = new GameUpdateDto()
+            {
+                Attacks = new AttackDto[game.Attacks.Length],
+                State = Map(game.Stats, game.IsRunning, game.FightMode),
+                Board = Map(game.Map)
+            };
+            for (int i = 0; i < game.Attacks.Length; i++)
+            {
+                dto.Attacks[i] = Map(game.Attacks[i]);
+            }
+            return dto;
+        }
+
+        private AttackDto Map(Attack attack)
         {
             var dto = new AttackDto()
             {
@@ -24,20 +39,7 @@ namespace DungeonGame.WebAPI
             return dto;
         }
 
-        public GameStateDto Map(Game game)
-        {
-            var dto = new GameStateDto()
-            {
-                Floor = game.Stats.Floor,
-                Kills = game.Stats.Kills,
-                Steps = game.Stats.Steps,
-                Running = game.IsRunning,
-                FightMode = game.FightMode,
-            };
-            return dto;
-        }
-
-        public BoardDto Map(Map map)
+        private BoardDto Map(Map map)
         {
             var dto = new BoardDto()
             {
@@ -57,6 +59,19 @@ namespace DungeonGame.WebAPI
                 dto.Items[i] = Map(map.Items[i]);
             }
 
+            return dto;
+        }
+
+        private GameStateDto Map(ProgressStats stats, bool isRunning, int fightMode)
+        {
+            var dto = new GameStateDto()
+            {
+                Floor = stats.Floor,
+                Kills = stats.Kills,
+                Steps = stats.Steps,
+                Running = isRunning,
+                FightMode = fightMode,
+            };
             return dto;
         }
 

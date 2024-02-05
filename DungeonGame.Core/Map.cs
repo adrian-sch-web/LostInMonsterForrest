@@ -2,7 +2,7 @@
 {
     public class Map
     {
-        public Position Size = new(40, 20);
+        public Position Size = new(20, 20);
         public Player Player { get; set; } = new(new Position(), 100, 20, 20);
         public Door Door { get; set; } = new(new Position());
         public List<Monster> Monsters { get; set; } = [];

@@ -2,10 +2,27 @@
 
 namespace DungeonGame.WebAPI
 {
+
+    public class RiskyDto(bool risky)
+    {
+        public bool Risky { get; set; } = risky;
+    }
+    public class DirectionDto(Direction direction)
+    {
+        public Direction Direction { get; set; } = direction; 
+    }
+    
     public class PositionDto(int x, int y)
     {
         public int X { get; set; } = x;
         public int Y { get; set; } = y;
+    }
+
+    public class GameUpdateDto
+    {
+        public AttackDto[] Attacks { get; set; }
+        public GameStateDto State { get; set; }
+        public BoardDto Board { get; set; }
     }
 
     public class AttackDto
