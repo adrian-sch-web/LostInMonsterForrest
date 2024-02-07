@@ -54,9 +54,9 @@ namespace DungeonGame.WebAPI.Controllers
         }
 
         [HttpDelete("Restart")]
-        public IActionResult Delete()
+        public IActionResult Restart()
         {
-            _cache.Remove("key");
+            _cache.Set("key", new Game());
             return Ok();
         }
 
@@ -178,10 +178,10 @@ namespace DungeonGame.WebAPI.Controllers
             return File(b, "image/png");
         }
 
-        [HttpGet("Thomb")]
-        public IActionResult GetThombImage()
+        [HttpGet("Tomb")]
+        public IActionResult GetTombImage()
         {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Thomb.png");
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Tomb.png");
             return File(b, "image/png");
         }
     }
