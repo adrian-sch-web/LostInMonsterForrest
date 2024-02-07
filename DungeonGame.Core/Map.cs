@@ -84,7 +84,7 @@
             for (int i = 0; i < amount; i++)
             {
                 Position position = GetRandomPosition();
-                Monsters.Add(Monster.CreateMonster(i + 1, (MonsterType)random.Next(3), position));
+                Monsters.Add(Monster.CreateMonster(i + 1, (MonsterType)random.Next(3), position , GetRandomPosition()));
             }
         }
 

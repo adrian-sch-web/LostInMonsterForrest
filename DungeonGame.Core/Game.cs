@@ -95,11 +95,17 @@
                 }
                 else
                 {
-                    do
+                    direction = Direction.Idle;
+                    List<Direction> directions = monster.OptimalMove(monster.Destination);
+                    if (directions.Count > 0)
                     {
-                        direction = (Direction)random.Next(4);
-                    } while (!Map.DirectionCheck(direction, monster.Position));
+                        direction = directions[random.Next(directions.Count)];
+                    }
                     Move(monster, direction);
+                    if (monster.OnSameSpot(monster.Destination))
+                    {
+                        monster.Destination = Map.GetRandomPosition();
+                    }
                 }
             }
             FightMode = Map.OnMonster(Map.Player.Position);

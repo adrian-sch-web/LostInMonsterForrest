@@ -1,9 +1,10 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Monster(int _id,  MonsterType _Type, Position _Position, int _Hp, int _Damage, int _CritChance) : Fighter(_Position,_Hp,_Damage,_CritChance)
+    public class Monster(int _id,  MonsterType _Type, Position _Position, int _Hp, int _Damage, int _CritChance, Position destination) : Fighter(_Position,_Hp,_Damage,_CritChance)
     {
         public MonsterType Type { get; } = _Type;
         public int Id { get; } = _id;
+        public Position Destination { get; set; } = destination;
 
         public List<Direction> OptimalMove(Position destination)
         {
@@ -28,13 +29,13 @@
             return possibleDirections;
         }
 
-        public static Monster CreateMonster(int id, MonsterType type,Position position)
+        public static Monster CreateMonster(int id, MonsterType type, Position position, Position destination)
         {
             return type switch
             {
-                MonsterType.Giganto => new Monster(id, type, position, 100, 2, 20),
-                MonsterType.Normalo => new Monster(id, type, position, 50, 4, 10),
-                MonsterType.Attacko => new Monster(id, type, position, 30, 10, 40),
+                MonsterType.Giganto => new Monster(id, type, position, 100, 2, 20, destination),
+                MonsterType.Normalo => new Monster(id, type, position, 50, 4, 10, destination),
+                MonsterType.Attacko => new Monster(id, type, position, 30, 10, 40, destination),
                 _ => throw new Exception("Invalid Monster Type"),
             };
         }
