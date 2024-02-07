@@ -2,7 +2,7 @@
 
 namespace DungeonGame.WebAPI
 {
-
+        
     public class RiskyDto(bool risky)
     {
         public bool Risky { get; set; } = risky;

@@ -80,6 +80,13 @@ namespace DungeonGame.WebAPI.Controllers
             return File(b, "image/png");
         }
 
+        [HttpGet("Floor")]
+        public IActionResult GetFloor()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Floor.png");
+            return File(b, "image/png");
+        }
+
         [HttpGet("Empty")]
         public IActionResult GetEmpty()
         {
@@ -91,6 +98,34 @@ namespace DungeonGame.WebAPI.Controllers
         public IActionResult GetPlayerImage()
         {
             byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Player.png");
+            return File(b, "image/png");
+        }
+
+        [HttpGet("PlayerInFight")]
+        public IActionResult GetPlayerFightImage()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/PlayerInFight.png");
+            return File(b, "image/png");
+        }
+
+        [HttpGet("NormaloInFight")]
+        public IActionResult GetNormaloFightImage()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/NormaloInFight.png");
+            return File(b, "image/png");
+        }
+
+        [HttpGet("AttackoInFight")]
+        public IActionResult GetAttackoFightImage()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/AttackoInFight.png");
+            return File(b, "image/png");
+        }
+
+        [HttpGet("GigantoInFight")]
+        public IActionResult GetGigantoFightImage()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/GigantoInFight.png");
             return File(b, "image/png");
         }
 
@@ -140,6 +175,13 @@ namespace DungeonGame.WebAPI.Controllers
         public IActionResult GetHealImage()
         {
             byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Heal.png");
+            return File(b, "image/png");
+        }
+
+        [HttpGet("Thomb")]
+        public IActionResult GetThombImage()
+        {
+            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Thomb.png");
             return File(b, "image/png");
         }
     }
