@@ -4,6 +4,7 @@
     {
         public ProgressStats Stats = new();
         public Map Map = new();
+        public bool recordSubmitted = false;
         public bool IsRunning { get; set; } = true;
         public int FightMode { get; set; } = -1;        //Index of monster in fight -1 if not in fight
         public Attack[] Attacks = [];
@@ -118,6 +119,7 @@
             if (Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
             {
                 direction = Direction.Idle;
+                monster.Destination = Map.GetRandomPosition();
             }
             monster.Move(direction);
         }

@@ -4,6 +4,18 @@ namespace DungeonGame.WebAPI
 {
     public class Mapper
     {
+
+        public LeaderboardEntry Map(LbEntryDto dto)
+        {
+            return (new LeaderboardEntry(dto.ID, dto.Name, dto.Floor, dto.Kills));
+        }
+
+        public LbEntryDto Map(LeaderboardEntry entry)
+        {
+            var dto = new LbEntryDto(entry.ID, entry.Name, entry.Floor, entry.Kills);
+            return dto;
+        }
+
         public PositionDto Map(Position position)
         {
             var dto = new PositionDto(position.X, position.Y);
@@ -15,7 +27,7 @@ namespace DungeonGame.WebAPI
             var dto = new GameUpdateDto()
             {
                 Attacks = new AttackDto[game.Attacks.Length],
-                State = Map(game.Stats, game.IsRunning, game.FightMode),
+                State = Map(game.Stats, game.IsRunning, game.FightMode, game.recordSubmitted),
                 Board = Map(game.Map)
             };
             for (int i = 0; i < game.Attacks.Length; i++)
@@ -62,7 +74,7 @@ namespace DungeonGame.WebAPI
             return dto;
         }
 
-        private GameStateDto Map(ProgressStats stats, bool isRunning, int fightMode)
+        private GameStateDto Map(ProgressStats stats, bool isRunning, int fightMode, bool recordSubmitted)
         {
             var dto = new GameStateDto()
             {
@@ -71,6 +83,7 @@ namespace DungeonGame.WebAPI
                 Steps = stats.Steps,
                 Running = isRunning,
                 FightMode = fightMode,
+                RecordSubmitted = recordSubmitted
             };
             return dto;
         }

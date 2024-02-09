@@ -2,7 +2,14 @@
 
 namespace DungeonGame.WebAPI
 {
-        
+
+    public class LbEntryDto(int id, string name, int floor, int kills)
+    {
+        public int ID { get; set; } = id;
+        public string Name { get; set; } = name;
+        public int Floor { get; set; } = floor;
+        public int Kills { get; set; } = kills;
+    }
     public class RiskyDto(bool risky)
     {
         public bool Risky { get; set; } = risky;
@@ -42,6 +49,7 @@ namespace DungeonGame.WebAPI
         public int Steps { get; set; }
         public bool Running { get; set; }
         public int FightMode { get; set; }
+        public bool RecordSubmitted { get;set; }
     }
 
     public class BoardDto

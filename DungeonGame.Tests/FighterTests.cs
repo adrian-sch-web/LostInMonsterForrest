@@ -31,7 +31,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(),100,10,20);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
             int expectedDamage = 10;
 
             //Act
@@ -48,7 +48,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(), 100, 10, 20);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
             int expectedDamage = 20;
 
             //Act
@@ -65,7 +65,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(), 100, 10, 10);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
             int expectedDamage = 0;
 
             //Act
@@ -80,7 +80,7 @@ namespace DungeonGame.Tests
         {
             //Arrange
             Fighter testFighter = new(new Position(), 100, 10, 10);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10), true);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
             int expectedDamage = 10;
 
             //Act

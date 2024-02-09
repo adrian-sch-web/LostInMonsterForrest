@@ -15,7 +15,7 @@ namespace DungeonGame.Tests
             MonsterType expectedType = MonsterType.Normalo;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, MonsterType.Normalo, new Position());
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Normalo, new Position(), new Position(0, 0));
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);
@@ -34,7 +34,7 @@ namespace DungeonGame.Tests
             MonsterType expectedType = MonsterType.Giganto;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, MonsterType.Giganto, new Position());
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Giganto, new Position(), new Position(0, 0));
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);
@@ -53,7 +53,7 @@ namespace DungeonGame.Tests
             MonsterType expectedType = MonsterType.Attacko;
 
             //Act
-            Monster testMonster = Monster.CreateMonster(1, MonsterType.Attacko, new Position());
+            Monster testMonster = Monster.CreateMonster(1, MonsterType.Attacko, new Position(), new Position(0, 0));
 
             //Assert
             Assert.Equal(expectedHp, testMonster.Hp);

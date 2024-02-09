@@ -10,10 +10,12 @@ namespace DungeonGame.WebAPI.Controllers
     {
         private readonly Mapper mapper = new();
 
+        
+        
         [HttpGet("Size")]
         public IActionResult GetSize()
         {
-            Game game = CheckCache();
+            Game game = new();
             Position boardSize = game.Map.Size;
             var mappedBoardSize = mapper.Map(boardSize);
             return Ok(mappedBoardSize);
@@ -60,6 +62,32 @@ namespace DungeonGame.WebAPI.Controllers
             return Ok();
         }
 
+        [HttpGet("Leaderboard")]
+        public IActionResult GetLeaderBoard()
+        {
+            var leaderboard = Leaderboard.GetLeaderBoard();
+            List<LbEntryDto> mappedLb = new();
+            foreach(var entry in leaderboard)
+            {
+                mappedLb.Add(mapper.Map(entry));
+            }
+            return Ok(mappedLb);
+        }
+
+        [HttpPost("SubmitScore")]
+        public IActionResult AddEntry(LbEntryDto dto)
+        {
+            var game = CheckCache();
+            if (!game.recordSubmitted)
+            {
+                var entry = mapper.Map(dto);
+                Leaderboard.SaveRecord(entry);
+                game.recordSubmitted = true;
+            }
+            _cache.Set("key", game);
+            return GetLeaderBoard();
+        }
+
         private Game CheckCache()
         {
             _cache.TryGetValue("key", out Game? game);
@@ -71,117 +99,18 @@ namespace DungeonGame.WebAPI.Controllers
             return game;
         }
 
-
-
-        [HttpGet("Tree")]
-        public IActionResult GetTree()
+        [HttpGet("Image/{name}")]
+        public IActionResult GetImage(string name)
         {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Tree.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Floor")]
-        public IActionResult GetFloor()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Floor.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Empty")]
-        public IActionResult GetEmpty()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Empty.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Player")]
-        public IActionResult GetPlayerImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Player.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("PlayerInFight")]
-        public IActionResult GetPlayerFightImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/PlayerInFight.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("NormaloInFight")]
-        public IActionResult GetNormaloFightImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/NormaloInFight.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("AttackoInFight")]
-        public IActionResult GetAttackoFightImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/AttackoInFight.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("GigantoInFight")]
-        public IActionResult GetGigantoFightImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/GigantoInFight.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Door")]
-        public IActionResult GetDoorImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Door.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Normalo")]
-        public IActionResult GetNormaloImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Normalo.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Attacko")]
-        public IActionResult GetAttackoImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Attacko.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Giganto")]
-        public IActionResult GetGigantoImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Giganto.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("DamageUp")]
-        public IActionResult GetDanageUpImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/DamageUp.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("CritUp")]
-        public IActionResult GetCritUpImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/CritUp.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Heal")]
-        public IActionResult GetHealImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Heal.png");
-            return File(b, "image/png");
-        }
-
-        [HttpGet("Tomb")]
-        public IActionResult GetTombImage()
-        {
-            byte[] b = System.IO.File.ReadAllBytes("./Assets/Images/Tomb.png");
+            byte[] b;
+            try
+            {
+                b = System.IO.File.ReadAllBytes("./Assets/Images/" + name + ".png");
+            }
+            catch
+            {
+                return NotFound();
+            }
             return File(b, "image/png");
         }
     }
