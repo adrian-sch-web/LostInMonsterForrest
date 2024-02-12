@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonGame.Core
+﻿namespace DungeonGame.Core
 {
     public class Position
     {
@@ -32,6 +26,11 @@ namespace DungeonGame.Core
                 Direction.Down => new Position(X, Y + 1),
                 _ => new Position(X, Y),
             };
+        }
+
+        public bool SamePosition(Position other)
+        {
+            return X == other.X && Y == other.Y;
         }
     }
 }

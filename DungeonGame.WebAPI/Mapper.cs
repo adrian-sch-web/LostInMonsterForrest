@@ -58,7 +58,8 @@ namespace DungeonGame.WebAPI
                 Player = Map(map.Player),
                 Door = Map(map.Door),
                 Monsters = new MonsterDto[map.Monsters.Count],
-                Items = new ItemDto[map.Items.Count]
+                Items = new ItemDto[map.Items.Count],
+                Trees = new PlaceableDto[map.Trees.Count]
             };
 
             for (int i = 0; i < dto.Monsters.Length; i++)
@@ -69,6 +70,11 @@ namespace DungeonGame.WebAPI
             for (int i = 0; i < dto.Items.Length; i++)
             {
                 dto.Items[i] = Map(map.Items[i]);
+            }
+
+            for (int i = 0; i < dto.Trees.Length; i++)
+            {
+                dto.Trees[i] = Map(map.Trees[i]);
             }
 
             return dto;

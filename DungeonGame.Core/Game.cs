@@ -116,7 +116,7 @@
         {
             Position newPosition = monster.Position.GetNeighbourPosition(direction);
 
-            if (Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
+            if (Map.OnTree(newPosition) || Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
             {
                 direction = Direction.Idle;
                 monster.Destination = Map.GetRandomPosition();

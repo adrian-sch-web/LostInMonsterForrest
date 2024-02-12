@@ -58,6 +58,7 @@ namespace DungeonGame.WebAPI
         public PlaceableDto Door { get; set; }
         public MonsterDto[] Monsters { get; set; }
         public ItemDto[] Items { get; set; }
+        public PlaceableDto[] Trees { get; set; }
 
     }
 

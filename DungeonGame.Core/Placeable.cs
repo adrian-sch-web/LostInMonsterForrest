@@ -6,7 +6,7 @@
 
         public bool OnSameSpot(Position spot)
         {
-            return Position.X == spot.X && Position.Y == spot.Y;
+            return Position.SamePosition(spot);
         }
         
         public int Distance(Position spot)
