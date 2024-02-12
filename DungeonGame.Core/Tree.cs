@@ -4,9 +4,9 @@
     {
 
 
-        public static Position[][] GetTreeFormations()
+        public static List<Position>[] GetTreeFormations()
         {
-            Position[][] treeFormations = {
+            List<Position>[] treeFormations = {
                 [
                     new(9,5), new(10,5), new(9,6), new(10,6), new(8,7), new(9,7), new(10,7), new(11,7), new(8,8), new(9,8), 
                     new(10,8), new(11,8), new(7,9), new(8,9), new(9,9), new(10,9), new(11,9), new(12,9), new(7,10), new(8,10),
@@ -17,8 +17,8 @@
                     new(5,4), new(6,4), new(5,5), new(6,5), new(5,6), new(6,6), new(5,7), new(6,7), new(5,8), new(6,8), new(0,9),
                     new(1,9), new(2,9), new(3,9), new(4,9), new(5,9), new(6,9), new(13,9), new(14,9), new(15,9), new(16,9),
                     new(17,9), new(18,9), new(19,9), new(0,10), new(1,10), new(2,10), new(3,10), new(4,10), new(5,10), new(6,10),
-                    new(13,10), new(14,10), new(15,10), new(16,10), new(17,10), new(18,10), new(19,10), new(20,10), new(13,11), 
-                    new(14,11), new(13,12), new(14,12), new(13,13), new(14,13), new(13,14), new(14,14), new(13,15), new(14,15)
+                    new(13,10), new(14,10), new(15,10), new(16,10), new(17,10), new(18,10), new(19,10), new(13,11), new(14,11),
+                    new(13,12), new(14,12), new(13,13), new(14,13), new(13,14), new(14,14), new(13,15), new(14,15)
                     ],
                 [
                     new(0,0), new(1,0), new(2,0), new(3,0), new(4,0), new(5,0), new(14,0), new(15,0), new(16,0), new(17,0),
@@ -40,7 +40,7 @@
                     new(9,0), new(10,0), new(9,1), new(10,1), new(9,2), new(10,2), new(9,3), new(10,3), new(9,4), new(10,4), new(9,5),
                     new(10,5), new(0,9), new(1,9), new(2,9), new(3,9), new(4,9), new(5,9), new(14,9), new(15,9), new(16,9), new(17,9),
                     new(18,9), new(19,9), new(0,10), new(1,10), new(2,10), new(3,10), new(4,10), new(5,10), new(14,10), new(15,10),
-                    new(16,10), new(17,10), new(18,10), new(19,10), new(20,10), new(9,14), new(10,14), new(9,15), new(10,15), 
+                    new(16,10), new(17,10), new(18,10), new(19,10), new(9,14), new(10,14), new(9,15), new(10,15), 
                     new(9,16), new(10,16), new(9,17), new(10,17), new(9,18), new(10,18), new(9,19), new(10,19),
                     ],
                 [

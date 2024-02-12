@@ -16,7 +16,7 @@ namespace DungeonGame.WebAPI.Controllers
         public IActionResult GetSize()
         {
             Game game = new();
-            Position boardSize = game.Map.Size;
+            Position boardSize = Map.Size;
             var mappedBoardSize = mapper.Map(boardSize);
             return Ok(mappedBoardSize);
         }

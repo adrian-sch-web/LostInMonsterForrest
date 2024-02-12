@@ -2,15 +2,26 @@
 
 namespace DungeonGame.Core
 {
-    static public class Leaderboard
+    public class Leaderboard
     {
+        private const string path = "../DungeonGame.Core/Leaderboard";
+        private const string filename = "/Leaderboard.csv";
         public static List<LeaderboardEntry> GetLeaderBoard()
         {
             List<LeaderboardEntry> leaderboard = new List<LeaderboardEntry>();
             string content;
             try
             {
-                content = File.ReadAllText("../DungeonGame.Core/Leaderboard/Leaderboard.csv");
+                content = File.ReadAllText(path + filename);
+                string[] lines = content.Split("\n");
+                for (int i = 1; i < lines.Length - 1; i++)
+                {
+                    if (lines[i] != "")
+                    {
+                        leaderboard.Add(ReadEntry(lines[i]));
+                    }
+                }
+                return leaderboard;
             }
             catch
             {
@@ -18,15 +29,6 @@ namespace DungeonGame.Core
                 SaveLeaderboard(new List<LeaderboardEntry>());
                 return new List<LeaderboardEntry>();
             }
-            string[] lines = content.Split("\n");
-            for (int i = 1; i < lines.Length - 1; i++)
-            {
-                if (lines[i] != "")
-                {
-                    leaderboard.Add(ReadEntry(lines[i]));
-                }
-            }
-            return leaderboard;
         }
 
         static public void SaveRecord(LeaderboardEntry entry)
@@ -44,7 +46,7 @@ namespace DungeonGame.Core
             });
             if (leaderboard.Count > 10)
             {
-                leaderboard.Remove(leaderboard[leaderboard.Count-1]);
+                leaderboard.Remove(leaderboard[leaderboard.Count - 1]);
 
             }
             SaveLeaderboard(leaderboard);
@@ -54,7 +56,7 @@ namespace DungeonGame.Core
         static private void SaveLeaderboard(List<LeaderboardEntry> leaderboard)
         {
 
-            StreamWriter sw = new("../DungeonGame.Core/Leaderboard/Leaderboard.csv");
+            StreamWriter sw = new(path + filename);
             sw.WriteLine("id(int),name(string),floor(int),kills(int)");
             foreach (var entry in leaderboard)
             {
@@ -66,7 +68,7 @@ namespace DungeonGame.Core
 
         static private void CreateLeaderboard()
         {
-            FileStream fs = File.Create("../DungeonGame.Core/Leaderboard/Leaderboard.csv");
+            FileStream fs = File.Create(path + filename);
             fs.Close();
         }
         static private LeaderboardEntry ReadEntry(string line)

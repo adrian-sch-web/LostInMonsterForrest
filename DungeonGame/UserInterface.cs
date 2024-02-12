@@ -81,7 +81,7 @@ namespace DungeonGame.UI
                         return false;
                     break;
                 case ConsoleKey.RightArrow:
-                    if (game.Map.Player.Position.X == game.Map.Size.X)
+                    if (game.Map.Player.Position.X == Map.Size.X)
                         return false;
                     break;
                 case ConsoleKey.UpArrow:
@@ -89,7 +89,7 @@ namespace DungeonGame.UI
                         return false;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (game.Map.Player.Position.Y == game.Map.Size.Y)
+                    if (game.Map.Player.Position.Y == Map.Size.Y)
                         return false;
                     break;
                 default: 

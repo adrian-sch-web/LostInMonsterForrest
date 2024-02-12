@@ -2,7 +2,7 @@
 {
     public class Map
     {
-        public Position Size = new(20, 20);
+        public static Position Size = new(20, 20);
         public Player Player { get; set; } = new(new Position(), 100, 20, 20);
         public Door Door { get; set; } = new(new Position());
         public List<Tree> Trees { get; set; } = [];
@@ -10,9 +10,8 @@
         public List<Item> Items { get; set; } = [];
 
         private readonly Random random = new();
-        private readonly Position[][] treeFormations = Tree.GetTreeFormations();
+        private readonly List<Position>[] treeFormations = Tree.GetTreeFormations();
 
-  
         public int OnMonster(Position position)
         {
             foreach (Monster monster in Monsters)
@@ -54,7 +53,7 @@
             TreeSetup();
             DoorSetup();
             ItemSetup(1);
-            MonsterSetup(3 + 2 * floor);
+            MonsterSetup(3 + floor * 2);
         }
 
         public Position GetRandomPosition()
@@ -66,7 +65,7 @@
                 xPos = random.Next(Size.X);
                 yPos = random.Next(Size.Y);
                 newPosition = new Position(xPos, yPos);
-            } while (Player.OnSameSpot(newPosition) || OnMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnTree(newPosition));
+            } while (Player.OnSameSpot(newPosition) || OnMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnTree(newPosition) || OnItem(newPosition) != -1);
             return newPosition;
         }
 
@@ -103,19 +102,93 @@
             {
                 return;
             }
-            Position[] formation = treeFormations[random.Next(treeFormations.Length)];
-            for (int i = 0; i < formation.Length; i++)
+            List<Position> formation = treeFormations[random.Next(treeFormations.Length)];
+            for (int i = 0; i < formation.Count; i++)
             {
                 if (Player.OnSameSpot(formation[i]))
                 {
                     return;
                 }
             }
-            for (int i = 0; i < formation.Length; i++)
+            for (int i = 0; i < formation.Count; i++)
             {
                 Trees.Add(new(formation[i]));
             }
 
+        }
+
+        public Direction FindPath(Position position, Position destination)
+        {
+            bool[,] snapShot = new bool[Size.X, Size.Y];
+
+            snapShot[Door.Position.X, Door.Position.Y] = true;
+            Monsters.ForEach(monster => snapShot[monster.Position.X, monster.Position.Y] = true);
+            Trees.ForEach(tree => snapShot[tree.Position.X, tree.Position.Y] = true);
+            Items.ForEach(item => snapShot[item.Position.X, item.Position.Y] = true);
+
+            List<Path> openPaths = [];
+            var left = position.GetNeighbourPosition(Direction.Left);
+            var right = position.GetNeighbourPosition(Direction.Right);
+            var up = position.GetNeighbourPosition(Direction.Up);
+            var down = position.GetNeighbourPosition(Direction.Down);
+            snapShot[position.X, position.Y] = true;
+            if (left.InField(Size) && !snapShot[left.X, left.Y])
+                openPaths.Add(new(left, Direction.Left, 1, left.Distance(destination)));
+            if (right.InField(Size) && !snapShot[right.X, right.Y])
+                openPaths.Add(new(right, Direction.Right, 1, right.Distance(destination)));
+            if (up.InField(Size) && !snapShot[up.X, up.Y])
+                openPaths.Add(new(up, Direction.Up, 1, up.Distance(destination)));
+            if (down.InField(Size) && !snapShot[down.X, down.Y])
+                openPaths.Add(new(down, Direction.Down, 1, down.Distance(destination)));
+            openPaths.Sort((pathA, pathB) => pathB.Sum - pathA.Sum);
+            foreach (var openPath in openPaths)
+            {
+                snapShot[openPath.Position.X, openPath.Position.Y] = true;
+            }
+            while (openPaths.Count > 0)
+            {
+                var temp = openPaths.Last();
+                if (temp.Position.SamePosition(destination))
+                    return temp.FirstDirection;
+                openPaths.Remove(temp);
+                var neighbours = temp.Neighbours();
+                foreach (var neighbour in neighbours)
+                {
+                    if (snapShot[neighbour.X, neighbour.Y])
+                        continue;
+                    snapShot[neighbour.X, neighbour.Y] = true;
+                    var newPath = new Path(neighbour, temp.FirstDirection, temp.DistanceTraveled + 1, neighbour.Distance(destination));
+                    int index = openPaths.FindIndex(x => x.Sum < newPath.Sum);
+                    if (index < 0) index = openPaths.Count;
+                    openPaths.Insert(index, newPath);
+                }
+            }
+            return Direction.Idle;
+        }
+
+        private class Path(Position position, Direction firstDirection, int traveled, int distance)
+        {
+            public Direction FirstDirection { get; set; } = firstDirection;
+            public Position Position { get; set; } = position;
+            public int DistanceTraveled { get; set; } = traveled;
+            public int ApproxDistance { get; set; } = distance;
+            public int Sum { get; set; } = distance + traveled;
+
+            public List<Position> Neighbours()
+            {
+                List<Position> neighbours = [];
+                var left = Position.GetNeighbourPosition(Direction.Left);
+                var right = Position.GetNeighbourPosition(Direction.Right);
+                var up = Position.GetNeighbourPosition(Direction.Up);
+                var down = Position.GetNeighbourPosition(Direction.Down);
+
+                if (left.InField(Size)) neighbours.Add(left);
+                if (right.InField(Size)) neighbours.Add(right);
+                if (up.InField(Size)) neighbours.Add(up);
+                if (down.InField(Size)) neighbours.Add(down);
+
+                return neighbours;
+            }
         }
     }
 }

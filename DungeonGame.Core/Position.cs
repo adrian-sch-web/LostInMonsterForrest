@@ -32,5 +32,15 @@
         {
             return X == other.X && Y == other.Y;
         }
+
+        public int Distance(Position other)
+        {
+            return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+        }
+
+        public bool InField(Position size)
+        {
+            return(X >= 0 && Y >= 0 && X < size.X && Y < size.Y);
+        }
     }
 }

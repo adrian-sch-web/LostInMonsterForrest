@@ -9,8 +9,8 @@
         public int FightMode { get; set; } = -1;        //Index of monster in fight -1 if not in fight
         public Attack[] Attacks = [];
         private readonly Random random = new();
-        
-        public Game() 
+
+        public Game()
         {
             Map.Setup(0);
         }
@@ -32,7 +32,7 @@
 
             Stats.Steps++;
             Map.Player.Move(direction);
-             
+
             if (CollisionChecks())
             {
                 return;
@@ -85,23 +85,23 @@
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        direction = Direction.Idle;
-                        List<Direction> directions = monster.OptimalMove(Map.Player.Position);
-                        if (directions.Count > 0)
-                        {
-                            direction = directions[random.Next(directions.Count)];
-                        }
+                        direction = Map.FindPath(monster.Position, Map.Player.Position);
+                        //List<Direction> directions = monster.OptimalMove(Map.Player.Position);
+                        //if (directions.Count > 0)
+                        //{
+                        //    direction = directions[random.Next(directions.Count)];
+                        //}
                         Move(monster, direction);
                     }
                 }
                 else
                 {
-                    direction = Direction.Idle;
-                    List<Direction> directions = monster.OptimalMove(monster.Destination);
-                    if (directions.Count > 0)
-                    {
-                        direction = directions[random.Next(directions.Count)];
-                    }
+                    direction = Map.FindPath(monster.Position, monster.Destination);
+                    //List<Direction> directions = monster.OptimalMove(monster.Destination);
+                    //if (directions.Count > 0)
+                    //{
+                    //    direction = directions[random.Next(directions.Count)];
+                    //}
                     Move(monster, direction);
                     if (monster.OnSameSpot(monster.Destination))
                     {
@@ -111,7 +111,7 @@
             }
             FightMode = Map.OnMonster(Map.Player.Position);
         }
-        
+
         public void Move(Monster monster, Direction direction)
         {
             Position newPosition = monster.Position.GetNeighbourPosition(direction);
@@ -127,11 +127,11 @@
         public bool Fight(bool risky)
         {
             Monster? monster = Map.Monsters.Find(x => x.Id == FightMode);
-            if(monster is null)
+            if (monster is null)
             {
                 return false;
             }
-            if(monster.Hp == 0)
+            if (monster.Hp == 0)
             {
                 FightMode = -1;
                 Attacks = [];
@@ -143,11 +143,11 @@
             if (risky)
             {
                 playerAttack.Risky = true;
-                playerAttack = Map.Player.RiskyAttack(random.Next(100),random.Next(100),playerAttack);
+                playerAttack = Map.Player.RiskyAttack(random.Next(100), random.Next(100), playerAttack);
             }
             else
             {
-                playerAttack = Map.Player.Attack(random.Next(100),playerAttack);
+                playerAttack = Map.Player.Attack(random.Next(100), playerAttack);
             }
             monster.Defend(playerAttack.Damage);
             if (monster.Hp <= 0)
@@ -157,10 +157,10 @@
                 return false;
             }
             Attack monsterAttack = new(monster, false);
-            monsterAttack = monster.Attack(random.Next(100),monsterAttack);
+            monsterAttack = monster.Attack(random.Next(100), monsterAttack);
             if (playerAttack.Risky)
             {
-                monsterAttack.Damage = (int) (monsterAttack.Damage * 1.5);
+                monsterAttack.Damage = (int)(monsterAttack.Damage * 1.5);
                 Map.Player.WeakDefend(monsterAttack.Damage);
             }
             else
