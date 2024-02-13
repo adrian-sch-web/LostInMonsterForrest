@@ -134,72 +134,127 @@
             Trees.ForEach(tree => snapShot[tree.Position.X, tree.Position.Y] = true);
             Items.ForEach(item => snapShot[item.Position.X, item.Position.Y] = true);
 
-            List<Path> openPaths = [];
-            var left = position.GetNeighbourPosition(Direction.Left);
-            var right = position.GetNeighbourPosition(Direction.Right);
-            var up = position.GetNeighbourPosition(Direction.Up);
-            var down = position.GetNeighbourPosition(Direction.Down);
+            List<Path> openPaths = [new Path(position, [], 0, position.Distance(destination))];
 
-            snapShot[position.X, position.Y] = true;
-            if (left.InField(Size) && !snapShot[left.X, left.Y])
-                openPaths.Add(new(left, Direction.Left, 1, left.Distance(destination)));
-            if (right.InField(Size) && !snapShot[right.X, right.Y])
-                openPaths.Add(new(right, Direction.Right, 1, right.Distance(destination)));
-            if (up.InField(Size) && !snapShot[up.X, up.Y])
-                openPaths.Add(new(up, Direction.Up, 1, up.Distance(destination)));
-            if (down.InField(Size) && !snapShot[down.X, down.Y])
-                openPaths.Add(new(down, Direction.Down, 1, down.Distance(destination)));
-
-            openPaths.Sort((pathA, pathB) => pathB.SumTraveledApproximate - pathA.SumTraveledApproximate);
-
-            foreach (var openPath in openPaths)
-            {
-                snapShot[openPath.Position.X, openPath.Position.Y] = true;
-            }
+            snapShot[openPaths.First().Position.X, openPaths.First().Position.Y] = true;
             while (openPaths.Count > 0)
             {
                 var temp = openPaths.Last();
                 if (temp.Position.SamePosition(destination))
-                    return temp.FirstDirection;
-                openPaths.Remove(temp);
-                var neighbours = temp.Neighbours();
-
-                foreach (var neighbour in neighbours)
                 {
-                    if (snapShot[neighbour.X, neighbour.Y])
+                    if (temp.FullWay.Count > 0)
+                    {
+                        return temp.FullWay.First();
+                    }
+                }
+                openPaths.Remove(temp);
+                var neighbours = temp.Neighbours(destination);
+
+                foreach (var newPath in neighbours)
+                {
+                    if (snapShot[newPath.Position.X, newPath.Position.Y])
+                    {
                         continue;
-                    snapShot[neighbour.X, neighbour.Y] = true;
-                    var newPath = new Path(neighbour, temp.FirstDirection, temp.DistanceTraveled + 1, neighbour.Distance(destination));
-                    int index = openPaths.FindIndex(x => x.SumTraveledApproximate < newPath.SumTraveledApproximate);
+                    }
+                    snapShot[newPath.Position.X, newPath.Position.Y] = true;
+                    int index = openPaths.FindIndex(x => x.Compare(newPath));
                     if (index < 0) index = openPaths.Count;
                     openPaths.Insert(index, newPath);
                 }
+                //ShowAStar(snapShot, openPaths, destination);
             }
             return Direction.Idle;
         }
 
-        private class Path(Position position, Direction firstDirection, int traveled, int distance)
+        private class Path(Position position, List<Direction> directions, int traveled, int distance)
         {
-            public Direction FirstDirection { get; set; } = firstDirection;
+            public List<Direction> FullWay { get; set; } = directions;
             public Position Position { get; set; } = position;
             public int DistanceTraveled { get; set; } = traveled;
             public int SumTraveledApproximate { get; set; } = distance + traveled;
 
-            public List<Position> Neighbours()
+            public List<Path> Neighbours(Position destination)
             {
-                List<Position> neighbours = [];
+                List<Path> neighbours = [];
                 var left = Position.GetNeighbourPosition(Direction.Left);
                 var right = Position.GetNeighbourPosition(Direction.Right);
                 var up = Position.GetNeighbourPosition(Direction.Up);
                 var down = Position.GetNeighbourPosition(Direction.Down);
 
-                if (left.InField(Size)) neighbours.Add(left);
-                if (right.InField(Size)) neighbours.Add(right);
-                if (up.InField(Size)) neighbours.Add(up);
-                if (down.InField(Size)) neighbours.Add(down);
+                if (left.InField(Size)) neighbours.Add(new(left, [.. FullWay, Direction.Left], DistanceTraveled + 1, left.Distance(destination)));
+                if (right.InField(Size)) neighbours.Add(new(right, [.. FullWay, Direction.Right], DistanceTraveled + 1, right.Distance(destination)));
+                if (up.InField(Size)) neighbours.Add(new(up, [.. FullWay, Direction.Up], DistanceTraveled + 1, up.Distance(destination)));
+                if (down.InField(Size)) neighbours.Add(new(down, [.. FullWay, Direction.Down], DistanceTraveled + 1, down.Distance(destination)));
 
                 return neighbours;
             }
+
+            public bool Compare(Path other)
+            {
+                if(SumTraveledApproximate < other.SumTraveledApproximate)
+                {
+                    return true;
+                }
+                if(SumTraveledApproximate == other.SumTraveledApproximate)
+                {
+                    return DistanceTraveled > other.DistanceTraveled;
+                }
+                return false;
+            }
+        }
+
+        private void ShowAStar(bool[,] snapShot, List<Path> openPaths, Position destination)
+        {
+            bool[,] snapShotCopy = new bool[Size.X, Size.Y];
+
+            for (int i = 0; i < snapShot.GetLength(0); i++)
+            {
+                for (int j = 0; j < snapShot.GetLength(1); j++)
+                {
+                    snapShotCopy[i, j] = snapShot[i, j];
+                }
+            }
+
+            Console.Clear();
+            for (int i = 0; i < snapShot.GetLength(0); i++)
+            {
+                string line = "";
+                for (int j = 0; j < snapShot.GetLength(1); j++)
+                {
+                    if (snapShot[j, i] && snapShotCopy[j, i])
+                    {
+                        if(openPaths.FindIndex(a => a.Position.SamePosition(new(j, i))) == -1)
+                        {
+                            if (Trees.FindIndex(a => a.Position.SamePosition(new(j, i))) != -1)
+                            {
+                                line += "T";
+                            }
+                            else
+                            {
+                                line += "■";
+                            }
+                        }
+                        else
+                        {
+                            line += "+";
+                        }
+                    }
+                    else if (snapShot[j, i])
+                    {
+                        line += "*";
+                    }
+                    else if (destination.X == j && destination.Y == i)
+                    {
+                        line += "G";
+                    }
+                    else
+                    {
+                        line += ".";
+                    }
+                }
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
         }
     }
 }

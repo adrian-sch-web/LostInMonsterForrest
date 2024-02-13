@@ -6,7 +6,7 @@
         private const string filename = "/Leaderboard.csv";
         public static List<LeaderboardEntry> GetLeaderBoard(string path = path, string filename = filename)
         {
-            List<LeaderboardEntry> leaderboard = new List<LeaderboardEntry>();
+            List<LeaderboardEntry> leaderboard = [];
             string content;
             try
             {
@@ -24,8 +24,8 @@
             catch
             {
                 CreateLeaderboard(path, filename);
-                SaveLeaderboard(new List<LeaderboardEntry>(), path, filename);
-                return new List<LeaderboardEntry>();
+                SaveLeaderboard([], path, filename);
+                return [];
             }
         }
 
@@ -44,7 +44,7 @@
             });
             if (leaderboard.Count > 10)
             {
-                leaderboard.Remove(leaderboard[leaderboard.Count - 1]);
+                leaderboard.Remove(leaderboard[^1]);
 
             }
             SaveLeaderboard(leaderboard, path, filename);

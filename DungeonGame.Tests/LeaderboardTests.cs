@@ -3,31 +3,33 @@ using Xunit;
 
 namespace DungeonGame.Tests
 {
-    public class LeaderboardTests: IDisposable
+    public class LeaderboardTests : IDisposable
     {
         private string path = "../../../../DungeonGame.Tests/testLeaderboard";
         private string filename = "/testLeaderboard.csv";
-        
+
         public void Dispose()
         {
-            if (File.Exists(path + filename)) { 
-            File.Delete(path + filename);}
+            if (File.Exists(path + filename))
+            {
+                File.Delete(path + filename);
+            }
         }
-        
-        
+
+
         [Fact]
         public void CreateLeaderboardTest()
         {
             //Arrange
             List<LeaderboardEntry> expectedLeaderboard = [];
-            
+
             //Act
             var actualLeaderboard = Leaderboard.GetLeaderBoard(path, filename);
 
             //Assert
             Assert.Equal(expectedLeaderboard, actualLeaderboard);
         }
-        
+
         [Fact]
         public void SaveRecordTest()
         {
