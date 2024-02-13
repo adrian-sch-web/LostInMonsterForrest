@@ -1,12 +1,10 @@
-﻿using System.IO;
-
-namespace DungeonGame.Core
+﻿namespace DungeonGame.Core
 {
     public class Leaderboard
     {
         private const string path = "../DungeonGame.Core/Leaderboard";
         private const string filename = "/Leaderboard.csv";
-        public static List<LeaderboardEntry> GetLeaderBoard()
+        public static List<LeaderboardEntry> GetLeaderBoard(string path = path, string filename = filename)
         {
             List<LeaderboardEntry> leaderboard = new List<LeaderboardEntry>();
             string content;
@@ -25,15 +23,15 @@ namespace DungeonGame.Core
             }
             catch
             {
-                CreateLeaderboard();
-                SaveLeaderboard(new List<LeaderboardEntry>());
+                CreateLeaderboard(path, filename);
+                SaveLeaderboard(new List<LeaderboardEntry>(), path, filename);
                 return new List<LeaderboardEntry>();
             }
         }
 
-        static public void SaveRecord(LeaderboardEntry entry)
+        static public void SaveRecord(LeaderboardEntry entry, string path = path, string filename = filename)
         {
-            List<LeaderboardEntry> leaderboard = GetLeaderBoard();
+            List<LeaderboardEntry> leaderboard = GetLeaderBoard(path, filename);
             leaderboard.Add(entry);
             leaderboard.Sort((a, b) =>
             {
@@ -49,13 +47,12 @@ namespace DungeonGame.Core
                 leaderboard.Remove(leaderboard[leaderboard.Count - 1]);
 
             }
-            SaveLeaderboard(leaderboard);
+            SaveLeaderboard(leaderboard, path, filename);
         }
 
 
-        static private void SaveLeaderboard(List<LeaderboardEntry> leaderboard)
+        static private void SaveLeaderboard(List<LeaderboardEntry> leaderboard, string path = path, string filename = filename)
         {
-
             StreamWriter sw = new(path + filename);
             sw.WriteLine("id(int),name(string),floor(int),kills(int)");
             foreach (var entry in leaderboard)
@@ -66,11 +63,12 @@ namespace DungeonGame.Core
             sw.Close();
         }
 
-        static private void CreateLeaderboard()
+        static private void CreateLeaderboard(string path = path, string filename = filename)
         {
             FileStream fs = File.Create(path + filename);
             fs.Close();
         }
+
         static private LeaderboardEntry ReadEntry(string line)
         {
             string[] parts = line.Split(',');

@@ -29,4 +29,8 @@
     <ProjectReference Include="..\DungeonGame.Core\DungeonGame.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="testLeaderboard\" />
+  </ItemGroup>
+
 </Project>
