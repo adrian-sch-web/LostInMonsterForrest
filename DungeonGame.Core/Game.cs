@@ -86,23 +86,13 @@
                     for (int i = 0; i < 2; i++)
                     {
                         direction = Map.FindPath(monster.Position, Map.Player.Position);
-                        //List<Direction> directions = monster.OptimalMove(Map.Player.Position);
-                        //if (directions.Count > 0)
-                        //{
-                        //    direction = directions[random.Next(directions.Count)];
-                        //}
-                        Move(monster, direction);
+                        monster.Move(direction);
                     }
                 }
                 else
                 {
                     direction = Map.FindPath(monster.Position, monster.Destination);
-                    //List<Direction> directions = monster.OptimalMove(monster.Destination);
-                    //if (directions.Count > 0)
-                    //{
-                    //    direction = directions[random.Next(directions.Count)];
-                    //}
-                    Move(monster, direction);
+                    monster.Move(direction);
                     if (monster.OnSameSpot(monster.Destination))
                     {
                         monster.Destination = Map.GetRandomPosition();
@@ -110,18 +100,6 @@
                 }
             }
             FightMode = Map.OnMonster(Map.Player.Position);
-        }
-
-        public void Move(Monster monster, Direction direction)
-        {
-            Position newPosition = monster.Position.GetNeighbourPosition(direction);
-
-            if (Map.OnTree(newPosition) || Map.OnMonster(newPosition) != -1 || Map.Door.OnSameSpot(newPosition) || Map.OnItem(newPosition) != -1)
-            {
-                direction = Direction.Idle;
-                monster.Destination = Map.GetRandomPosition();
-            }
-            monster.Move(direction);
         }
 
         public bool Fight(bool risky)

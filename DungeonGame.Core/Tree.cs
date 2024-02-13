@@ -85,13 +85,14 @@
                 treeFormations[5].Add(new(i + 6, 16));
             }
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
                 treeFormations[6].Add(new(3 + 2 * i, i));
                 treeFormations[6].Add(new(4 + 2 * i, i));
                 treeFormations[6].Add(new(5 + 2 * i, i + 14));
                 treeFormations[6].Add(new(6 + 2 * i, i + 14));
             }
+
             return treeFormations;
         }
     }

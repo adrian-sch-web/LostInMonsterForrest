@@ -2,7 +2,7 @@
 {
     public class Map
     {
-        public static Position Size = new(20, 20);
+        public static Position Size { get; } = new(20, 20);
         public Player Player { get; set; } = new(new Position(), 100, 20, 20);
         public Door Door { get; set; } = new(new Position());
         public List<Tree> Trees { get; set; } = [];
@@ -48,6 +48,14 @@
             return false;
         }
 
+        public bool IsEmptyField(Position position)
+        {
+            return !Player.OnSameSpot(position)
+                && OnMonster(position) == -1
+                && !Door.OnSameSpot(position)
+                && !OnTree(position)
+                && OnItem(position) == -1;
+        }
         public void Setup(int floor)
         {
             TreeSetup();
@@ -65,7 +73,7 @@
                 xPos = random.Next(Size.X);
                 yPos = random.Next(Size.Y);
                 newPosition = new Position(xPos, yPos);
-            } while (Player.OnSameSpot(newPosition) || OnMonster(newPosition) != -1 || Door.OnSameSpot(newPosition) || OnTree(newPosition) || OnItem(newPosition) != -1);
+            } while (!IsEmptyField(newPosition));
             return newPosition;
         }
 
@@ -131,6 +139,7 @@
             var right = position.GetNeighbourPosition(Direction.Right);
             var up = position.GetNeighbourPosition(Direction.Up);
             var down = position.GetNeighbourPosition(Direction.Down);
+
             snapShot[position.X, position.Y] = true;
             if (left.InField(Size) && !snapShot[left.X, left.Y])
                 openPaths.Add(new(left, Direction.Left, 1, left.Distance(destination)));
@@ -140,7 +149,9 @@
                 openPaths.Add(new(up, Direction.Up, 1, up.Distance(destination)));
             if (down.InField(Size) && !snapShot[down.X, down.Y])
                 openPaths.Add(new(down, Direction.Down, 1, down.Distance(destination)));
-            openPaths.Sort((pathA, pathB) => pathB.Sum - pathA.Sum);
+
+            openPaths.Sort((pathA, pathB) => pathB.SumTraveledApproximate - pathA.SumTraveledApproximate);
+
             foreach (var openPath in openPaths)
             {
                 snapShot[openPath.Position.X, openPath.Position.Y] = true;
@@ -152,13 +163,14 @@
                     return temp.FirstDirection;
                 openPaths.Remove(temp);
                 var neighbours = temp.Neighbours();
+
                 foreach (var neighbour in neighbours)
                 {
                     if (snapShot[neighbour.X, neighbour.Y])
                         continue;
                     snapShot[neighbour.X, neighbour.Y] = true;
                     var newPath = new Path(neighbour, temp.FirstDirection, temp.DistanceTraveled + 1, neighbour.Distance(destination));
-                    int index = openPaths.FindIndex(x => x.Sum < newPath.Sum);
+                    int index = openPaths.FindIndex(x => x.SumTraveledApproximate < newPath.SumTraveledApproximate);
                     if (index < 0) index = openPaths.Count;
                     openPaths.Insert(index, newPath);
                 }
@@ -171,8 +183,7 @@
             public Direction FirstDirection { get; set; } = firstDirection;
             public Position Position { get; set; } = position;
             public int DistanceTraveled { get; set; } = traveled;
-            public int ApproxDistance { get; set; } = distance;
-            public int Sum { get; set; } = distance + traveled;
+            public int SumTraveledApproximate { get; set; } = distance + traveled;
 
             public List<Position> Neighbours()
             {
