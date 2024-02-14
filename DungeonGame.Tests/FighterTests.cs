@@ -15,7 +15,7 @@ namespace DungeonGame.Tests
             int expectedCritchance = 20;
 
             //Act
-            Fighter actualFighter = new(new Position(0, 1), 100, 10, 20);
+            Fighter actualFighter = new(new Position(0, 1), 100, 100, 10, 20);
 
             //Assert
             Assert.Equal(expectedHp, actualFighter.Hp);
@@ -30,12 +30,12 @@ namespace DungeonGame.Tests
         public void AttackNoCritTest()
         {
             //Arrange
-            Fighter testFighter = new(new Position(),100,10,20);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 20);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 100, 10, 10, 1, new Position(0, 0)), true);
             int expectedDamage = 10;
 
             //Act
-            Attack actualAttack = testFighter.Attack(50,attack);
+            Attack actualAttack = testFighter.Attack(50, attack);
 
             //Assert
             Assert.Equal(expectedDamage, actualAttack.Damage);
@@ -47,12 +47,12 @@ namespace DungeonGame.Tests
         public void AttackCritTest()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 100, 10, 20);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 20);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 100, 10, 10, 1, new Position(0, 0)), true);
             int expectedDamage = 20;
 
             //Act
-            Attack actualAttack = testFighter.Attack(19,attack);
+            Attack actualAttack = testFighter.Attack(19, attack);
 
             //Assert
             Assert.Equal(expectedDamage, actualAttack.Damage);
@@ -64,8 +64,8 @@ namespace DungeonGame.Tests
         public void RiskyAttackTestMiss()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 100, 10, 10);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 10);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 100, 10, 10, 1, new Position(0, 0)), true);
             int expectedDamage = 0;
 
             //Act
@@ -79,8 +79,8 @@ namespace DungeonGame.Tests
         public void RiskyAttackTestHit()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 100, 10, 10);
-            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 10, 10, new Position(0, 0)), true);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 10);
+            Attack attack = new(new Monster(1, MonsterType.Normalo, new Position(1, 1), 100, 100, 10, 10, 1, new Position(0, 0)), true);
             int expectedDamage = 10;
 
             //Act
@@ -94,21 +94,21 @@ namespace DungeonGame.Tests
         public void DefendTestAlive()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 100, 10, 20);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 20);
             int expectedHp = 80;
 
             //Act
             testFighter.Defend(20);
 
             //Assert
-            Assert.Equal(expectedHp, testFighter.Hp);   
+            Assert.Equal(expectedHp, testFighter.Hp);
         }
 
         [Fact]
         public void DefendTestDead()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 10, 10, 20);
+            Fighter testFighter = new(new Position(), 100, 10, 10, 20);
             int expectedHp = 0;
 
             //Act
@@ -122,7 +122,7 @@ namespace DungeonGame.Tests
         public void WeakDefendTestAlive()
         {
             //Arrange
-            Fighter testFighter = new(new Position(), 100, 10, 20);
+            Fighter testFighter = new(new Position(), 100, 100, 10, 20);
             int expectedHp = 70;
 
             //Act

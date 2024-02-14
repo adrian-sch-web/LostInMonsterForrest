@@ -1,3 +1,2 @@
 id(int),name(string),floor(int),kills(int)
-0,Adrian,9,42
-0,Test,1,4
+0,Adrian,3,8

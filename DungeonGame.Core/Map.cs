@@ -3,7 +3,7 @@
     public class Map
     {
         public static Position Size { get; } = new(20, 20);
-        public Player Player { get; set; } = new(new Position(), 100, 20, 20);
+        public Player Player { get; set; } = new(new Position(), 100, 100, 20, 20);
         public Door Door { get; set; } = new(new Position());
         public List<Tree> Trees { get; set; } = [];
         public List<Monster> Monsters { get; set; } = [];
@@ -191,11 +191,11 @@
 
             public bool Compare(Path other)
             {
-                if(SumTraveledApproximate < other.SumTraveledApproximate)
+                if (SumTraveledApproximate < other.SumTraveledApproximate)
                 {
                     return true;
                 }
-                if(SumTraveledApproximate == other.SumTraveledApproximate)
+                if (SumTraveledApproximate == other.SumTraveledApproximate)
                 {
                     return DistanceTraveled > other.DistanceTraveled;
                 }
@@ -223,7 +223,7 @@
                 {
                     if (snapShot[j, i] && snapShotCopy[j, i])
                     {
-                        if(openPaths.FindIndex(a => a.Position.SamePosition(new(j, i))) == -1)
+                        if (openPaths.FindIndex(a => a.Position.SamePosition(new(j, i))) == -1)
                         {
                             if (Trees.FindIndex(a => a.Position.SamePosition(new(j, i))) != -1)
                             {

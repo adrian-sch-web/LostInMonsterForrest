@@ -96,7 +96,7 @@ namespace DungeonGame.WebAPI
 
         private MonsterDto Map(Monster monster)
         {
-            var dto = new MonsterDto(monster.Id, monster.Type, monster.Hp, monster.Damage, monster.CritChance, monster.Position.X, monster.Position.Y);
+            var dto = new MonsterDto(monster.Id, monster.Type, monster.MaxHp, monster.Hp, monster.Damage, monster.CritChance, monster.Position.X, monster.Position.Y);
             return dto;
         }
 
@@ -108,7 +108,7 @@ namespace DungeonGame.WebAPI
 
         private FighterDto Map(Fighter fighter)
         {
-            var dto = new FighterDto(fighter.Hp, fighter.Damage, fighter.CritChance, fighter.Position.X, fighter.Position.Y);
+            var dto = new FighterDto(fighter.MaxHp, fighter.Hp, fighter.Damage, fighter.CritChance, fighter.Position.X, fighter.Position.Y);
             return dto;
         }
 

@@ -78,26 +78,27 @@
 
         public void MonsterTurn()
         {
+            int moveCost = 1;  //implement later for different ground types
             foreach (var monster in Map.Monsters)
             {
+                monster.Stamina += monster.StaminaPerRound;
                 Direction direction;
                 if (monster.Distance(Map.Player.Position) <= 5)
                 {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        direction = Map.FindPath(monster.Position, Map.Player.Position);
-                        monster.Move(direction);
-                    }
+                    monster.Stamina += monster.StaminaPerRound;
+                    monster.Destination = Map.Player.Position;
                 }
-                else
+                while (monster.Stamina >= moveCost)
                 {
                     direction = Map.FindPath(monster.Position, monster.Destination);
                     monster.Move(direction);
-                    if (monster.OnSameSpot(monster.Destination))
-                    {
-                        monster.Destination = Map.GetRandomPosition();
-                    }
+                    monster.Stamina -= moveCost;
                 }
+                if (monster.OnSameSpot(monster.Destination) && !monster.OnSameSpot(Map.Player.Position))
+                {
+                    monster.Destination = Map.GetRandomPosition();
+                }
+
             }
             FightMode = Map.OnMonster(Map.Player.Position);
         }

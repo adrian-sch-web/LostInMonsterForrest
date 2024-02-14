@@ -67,14 +67,15 @@ namespace DungeonGame.WebAPI
         public int Id { get; set; } = id;
         public ItemType Type { get; set; } = type;
     }
-    public class MonsterDto(int id, MonsterType type, int hp, int dmg, int crit, int x, int y) : FighterDto(hp, dmg, crit, x, y)
+    public class MonsterDto(int id, MonsterType type,int maxHp, int hp, int dmg, int crit, int x, int y) : FighterDto(maxHp, hp, dmg, crit, x, y)
     {
         public int Id { get; set; } = id;
         public MonsterType Type { get; set; } = type;
     }
 
-    public class FighterDto(int hp, int dmg, int crit, int x, int y) : PlaceableDto(x, y)
+    public class FighterDto(int maxHp, int hp, int dmg, int crit, int x, int y) : PlaceableDto(x, y)
     {
+        public int MaxHp { get; set; } = maxHp;
         public int Hp { get; set; } = hp;
         public int Damage { get; set; } = dmg;
         public int CritChance { get; set; } = crit;
