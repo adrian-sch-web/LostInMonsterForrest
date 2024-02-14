@@ -1,4 +1,6 @@
-﻿namespace DungeonGame.Core
+﻿using System.Threading;
+
+namespace DungeonGame.Core
 {
     public class Game
     {
@@ -29,16 +31,31 @@
 
         public void MoveTurn(Direction direction)
         {
-
-            Stats.Steps++;
-            Map.Player.Move(direction);
-
-            if (CollisionChecks())
+            Map.FindPath(new(4, 0), new(4, 19));
+            double moveCost = Map.MoveCost(Map.Player.Position);
+            if (Map.Player.Stamina >= moveCost)
             {
-                return;
+                Stats.Steps++;
+                Map.Player.Move(direction);
+                Map.Player.Stamina -= moveCost;
+                if (CollisionChecks())
+                {
+                    Map.Player.Stamina += Map.Player.StaminaPerRound;
+                    return;
+                }
+                moveCost = Map.MoveCost(Map.Player.Position);
+                if(Map.Player.Stamina >= moveCost)
+                {
+                    return;
+                }
+                MonsterTurn();
+                Map.Player.Stamina += Map.Player.StaminaPerRound;
             }
-
-            MonsterTurn();
+            else
+            {
+                MonsterTurn();
+                Map.Player.Stamina += Map.Player.StaminaPerRound;
+            }
         }
 
         public void FightTurn(bool risky)
@@ -78,9 +95,10 @@
 
         public void MonsterTurn()
         {
-            int moveCost = 1;  //implement later for different ground types
             foreach (var monster in Map.Monsters)
             {
+                double moveCost = Map.MoveCost(monster.Position);
+
                 monster.Stamina += monster.StaminaPerRound;
                 Direction direction;
                 if (monster.Distance(Map.Player.Position) <= 5)
@@ -161,6 +179,7 @@
                 _ => Direction.Idle,
             };
         }
+
         public void NextFloor()
         {
             Stats.Floor++;

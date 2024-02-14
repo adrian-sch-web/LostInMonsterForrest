@@ -3,14 +3,14 @@
     public class Map
     {
         public static Position Size { get; } = new(20, 20);
-        public Player Player { get; set; } = new(new Position(), 100, 100, 20, 20);
+        public Player Player { get; set; } = new(new Position(), 100, 100, 20, 20, 1);
         public Door Door { get; set; } = new(new Position());
-        public List<Tree> Trees { get; set; } = [];
         public List<Monster> Monsters { get; set; } = [];
         public List<Item> Items { get; set; } = [];
+        public FloorType[,] Board { get; set; } = new FloorType[20, 20];
 
         private readonly Random random = new();
-        private readonly List<Position>[] treeFormations = Tree.GetTreeFormations();
+        private readonly List<FloorType[,]> floorFormations = Floor.GetBoards();
 
         public int OnMonster(Position position)
         {
@@ -38,14 +38,7 @@
 
         public bool OnTree(Position position)
         {
-            foreach (Placeable tree in Trees)
-            {
-                if (tree.OnSameSpot(position))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return Board[position.X, position.Y] == FloorType.Tree;
         }
 
         public bool IsEmptyField(Position position)
@@ -58,7 +51,7 @@
         }
         public void Setup(int floor)
         {
-            TreeSetup();
+            FloorSetup();
             DoorSetup();
             ItemSetup(1);
             MonsterSetup(3 + floor * 2);
@@ -103,40 +96,74 @@
             Door.Position = GetRandomPosition();
         }
 
-        public void TreeSetup()
+        public void FloorSetup()
         {
-            Trees.Clear();
             if (random.Next(3) == 0)
             {
-                return;
+                Board = floorFormations[0];
             }
-            List<Position> formation = treeFormations[random.Next(treeFormations.Length)];
-            for (int i = 0; i < formation.Count; i++)
+            Board = floorFormations[random.Next(1, floorFormations.Count)];
+            Board = floorFormations[7];
+            if (Board[Player.Position.X, Player.Position.Y] == FloorType.Tree)
             {
-                if (Player.OnSameSpot(formation[i]))
-                {
-                    return;
-                }
+                Board = floorFormations[0];
             }
-            for (int i = 0; i < formation.Count; i++)
-            {
-                Trees.Add(new(formation[i]));
-            }
-
         }
 
+        public double MoveCost(Position position)
+        {
+            double moveCost;
+            switch (Board[position.X, position.Y])
+            {
+                case FloorType.Road:
+                    moveCost = 0.5;
+                    break;
+                case FloorType.Mud:
+                    moveCost = 2;
+                    break;
+                case FloorType.Normal:
+                    moveCost = 1;
+                    break;
+                default: 
+                    moveCost = 99;
+                    break;
+            }
+            return moveCost;
+        }
+
+
+        //wrong Algorithm, to be improved!
         public Direction FindPath(Position position, Position destination)
         {
-            bool[,] snapShot = new bool[Size.X, Size.Y];
+            double[,] snapShot = new double[Board.GetLength(0), Board.GetLength(1)];
+            for (int i = 0; i < snapShot.GetLength(0); i++)
+            {
+                for (int j = 0; j < snapShot.GetLength(1); j++)
+                {
+                    switch (Board[i, j])
+                    {
+                        case FloorType.Tree:
+                            snapShot[i, j] = 99;
+                            break;
+                        case FloorType.Road:
+                            snapShot[i, j] = 0.5;
+                            break;
+                        case FloorType.Mud:
+                            snapShot[i, j] = 2;
+                            break;
+                        case FloorType.Normal:
+                            snapShot[i, j] = 1;
+                            break;
+                    }
+                }
+            }
+            snapShot[Door.Position.X, Door.Position.Y] = 99;
+            Monsters.ForEach(monster => snapShot[monster.Position.X, monster.Position.Y] = 99);
+            Items.ForEach(item => snapShot[item.Position.X, item.Position.Y] = 99);
 
-            snapShot[Door.Position.X, Door.Position.Y] = true;
-            Monsters.ForEach(monster => snapShot[monster.Position.X, monster.Position.Y] = true);
-            Trees.ForEach(tree => snapShot[tree.Position.X, tree.Position.Y] = true);
-            Items.ForEach(item => snapShot[item.Position.X, item.Position.Y] = true);
+            List<Path> openPaths = [new Path(position, [], 0, position.Distance(destination) / 2)];
 
-            List<Path> openPaths = [new Path(position, [], 0, position.Distance(destination))];
-
-            snapShot[openPaths.First().Position.X, openPaths.First().Position.Y] = true;
+            snapShot[openPaths.First().Position.X, openPaths.First().Position.Y] = 99;
             while (openPaths.Count > 0)
             {
                 var temp = openPaths.Last();
@@ -148,32 +175,31 @@
                     }
                 }
                 openPaths.Remove(temp);
-                var neighbours = temp.Neighbours(destination);
+                var neighbours = temp.Neighbours(destination, MoveCost(temp.Position));
 
                 foreach (var newPath in neighbours)
                 {
-                    if (snapShot[newPath.Position.X, newPath.Position.Y])
+                    if(snapShot[newPath.Position.X, newPath.Position.Y] > 10)
                     {
                         continue;
                     }
-                    snapShot[newPath.Position.X, newPath.Position.Y] = true;
+                    snapShot[newPath.Position.X, newPath.Position.Y] = 99;
                     int index = openPaths.FindIndex(x => x.Compare(newPath));
                     if (index < 0) index = openPaths.Count;
                     openPaths.Insert(index, newPath);
                 }
-                //ShowAStar(snapShot, openPaths, destination);
             }
             return Direction.Idle;
         }
 
-        private class Path(Position position, List<Direction> directions, int traveled, int distance)
+        private class Path(Position position, List<Direction> directions, double traveled, double distance)
         {
             public List<Direction> FullWay { get; set; } = directions;
             public Position Position { get; set; } = position;
-            public int DistanceTraveled { get; set; } = traveled;
-            public int SumTraveledApproximate { get; set; } = distance + traveled;
+            public double DistanceTraveled { get; set; } = traveled;
+            public double SumTraveledApproximate { get; set; } = distance + traveled;
 
-            public List<Path> Neighbours(Position destination)
+            public List<Path> Neighbours(Position destination, double moveCost)
             {
                 List<Path> neighbours = [];
                 var left = Position.GetNeighbourPosition(Direction.Left);
@@ -181,10 +207,10 @@
                 var up = Position.GetNeighbourPosition(Direction.Up);
                 var down = Position.GetNeighbourPosition(Direction.Down);
 
-                if (left.InField(Size)) neighbours.Add(new(left, [.. FullWay, Direction.Left], DistanceTraveled + 1, left.Distance(destination)));
-                if (right.InField(Size)) neighbours.Add(new(right, [.. FullWay, Direction.Right], DistanceTraveled + 1, right.Distance(destination)));
-                if (up.InField(Size)) neighbours.Add(new(up, [.. FullWay, Direction.Up], DistanceTraveled + 1, up.Distance(destination)));
-                if (down.InField(Size)) neighbours.Add(new(down, [.. FullWay, Direction.Down], DistanceTraveled + 1, down.Distance(destination)));
+                if (left.InField(Size)) neighbours.Add(new(left, [.. FullWay, Direction.Left], DistanceTraveled + moveCost, left.Distance(destination) / 2));
+                if (right.InField(Size)) neighbours.Add(new(right, [.. FullWay, Direction.Right], DistanceTraveled + moveCost, right.Distance(destination) / 2));
+                if (up.InField(Size)) neighbours.Add(new(up, [.. FullWay, Direction.Up], DistanceTraveled + moveCost, up.Distance(destination) / 2));
+                if (down.InField(Size)) neighbours.Add(new(down, [.. FullWay, Direction.Down], DistanceTraveled + moveCost, down.Distance(destination) / 2));
 
                 return neighbours;
             }
@@ -203,58 +229,5 @@
             }
         }
 
-        private void ShowAStar(bool[,] snapShot, List<Path> openPaths, Position destination)
-        {
-            bool[,] snapShotCopy = new bool[Size.X, Size.Y];
-
-            for (int i = 0; i < snapShot.GetLength(0); i++)
-            {
-                for (int j = 0; j < snapShot.GetLength(1); j++)
-                {
-                    snapShotCopy[i, j] = snapShot[i, j];
-                }
-            }
-
-            Console.Clear();
-            for (int i = 0; i < snapShot.GetLength(0); i++)
-            {
-                string line = "";
-                for (int j = 0; j < snapShot.GetLength(1); j++)
-                {
-                    if (snapShot[j, i] && snapShotCopy[j, i])
-                    {
-                        if (openPaths.FindIndex(a => a.Position.SamePosition(new(j, i))) == -1)
-                        {
-                            if (Trees.FindIndex(a => a.Position.SamePosition(new(j, i))) != -1)
-                            {
-                                line += "T";
-                            }
-                            else
-                            {
-                                line += "■";
-                            }
-                        }
-                        else
-                        {
-                            line += "+";
-                        }
-                    }
-                    else if (snapShot[j, i])
-                    {
-                        line += "*";
-                    }
-                    else if (destination.X == j && destination.Y == i)
-                    {
-                        line += "G";
-                    }
-                    else
-                    {
-                        line += ".";
-                    }
-                }
-                Console.WriteLine(line);
-            }
-            Thread.Sleep(100);
-        }
     }
 }

@@ -1,11 +1,13 @@
 ﻿namespace DungeonGame.Core
 {
-    public class Fighter(Position _Position, int MaxHp, int _Hp, int _Damage, int _CritChance) : Placeable(_Position)
+    public class Fighter(Position _Position, int MaxHp, int _Hp, int _Damage, int _CritChance, double _StaminaPerRound) : Placeable(_Position)
     {
         public int MaxHp { get; set; } = MaxHp;
         public int Hp { get; set; } = _Hp;
         public int Damage { get; set; } = _Damage;
         public int CritChance { get; set; } = _CritChance;
+        public double Stamina { get; set; } = 0;
+        public double StaminaPerRound { get; set; } = _StaminaPerRound;
 
         public Attack Attack(int critRoll, Attack attack)
         {

@@ -16,12 +16,6 @@ namespace DungeonGame.WebAPI
             return dto;
         }
 
-        public PositionDto Map(Position position)
-        {
-            var dto = new PositionDto(position.X, position.Y);
-            return dto;
-        }
-
         public GameUpdateDto Map(Game game)
         {
             var dto = new GameUpdateDto()
@@ -34,6 +28,12 @@ namespace DungeonGame.WebAPI
             {
                 dto.Attacks[i] = Map(game.Attacks[i]);
             }
+            return dto;
+        }
+
+        public BoardFloorDto Map(FloorType[,] board)
+        {
+            var dto = new BoardFloorDto(board);
             return dto;
         }
 
@@ -58,8 +58,7 @@ namespace DungeonGame.WebAPI
                 Player = Map(map.Player),
                 Door = Map(map.Door),
                 Monsters = new MonsterDto[map.Monsters.Count],
-                Items = new ItemDto[map.Items.Count],
-                Trees = new PlaceableDto[map.Trees.Count]
+                Items = new ItemDto[map.Items.Count]
             };
 
             for (int i = 0; i < dto.Monsters.Length; i++)
@@ -70,11 +69,6 @@ namespace DungeonGame.WebAPI
             for (int i = 0; i < dto.Items.Length; i++)
             {
                 dto.Items[i] = Map(map.Items[i]);
-            }
-
-            for (int i = 0; i < dto.Trees.Length; i++)
-            {
-                dto.Trees[i] = Map(map.Trees[i]);
             }
 
             return dto;

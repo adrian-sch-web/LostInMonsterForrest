@@ -10,15 +10,14 @@ namespace DungeonGame.WebAPI.Controllers
     {
         private readonly Mapper mapper = new();
 
-        
-        
-        [HttpGet("Size")]
-        public IActionResult GetSize()
+
+        [HttpGet("Board")]
+        public IActionResult GetBoard()
         {
-            Game game = new();
-            Position boardSize = Map.Size;
-            var mappedBoardSize = mapper.Map(boardSize);
-            return Ok(mappedBoardSize);
+            Game game = CheckCache();
+            FloorType[,] board = game.Map.Board;
+            var mappedBoard = mapper.Map(board);
+            return Ok(mappedBoard);
         }
 
         [HttpGet("State")]

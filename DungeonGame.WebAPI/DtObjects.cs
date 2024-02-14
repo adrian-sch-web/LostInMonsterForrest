@@ -3,6 +3,24 @@
 namespace DungeonGame.WebAPI
 {
 
+
+
+    public class BoardFloorDto
+    {
+        public List<FloorType[]> FloorTypeBoard { get; set; }
+        public BoardFloorDto(FloorType[,] board)
+        {
+            FloorTypeBoard = [];
+            for(int i = 0; i < board.GetLength(0); i++)
+            {
+                FloorTypeBoard.Add(new FloorType[board.GetLength(1)]);
+                for(int j = 0; j < board.GetLength(1); j++)
+                {
+                    FloorTypeBoard[i][j] = board[i, j];
+                }
+            }
+        }
+    }
     public class LbEntryDto(int id, string name, int floor, int kills)
     {
         public int ID { get; set; } = id;
@@ -58,8 +76,6 @@ namespace DungeonGame.WebAPI
         public PlaceableDto Door { get; set; }
         public MonsterDto[] Monsters { get; set; }
         public ItemDto[] Items { get; set; }
-        public PlaceableDto[] Trees { get; set; }
-
     }
 
     public class ItemDto(int id, ItemType type, int x, int y) : PlaceableDto(x, y)
