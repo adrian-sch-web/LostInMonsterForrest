@@ -103,8 +103,7 @@
                 Board = floorFormations[0];
             }
             Board = floorFormations[random.Next(1, floorFormations.Count)];
-            Board = floorFormations[7];
-            if (Board[Player.Position.X, Player.Position.Y] == FloorType.Tree)
+            if (Board[Player.Position.X, Player.Position.Y] == FloorType.Tree || Board[Player.Position.X, Player.Position.Y] == FloorType.Mud)
             {
                 Board = floorFormations[0];
             }
@@ -112,27 +111,17 @@
 
         public double MoveCost(Position position)
         {
-            double moveCost;
-            switch (Board[position.X, position.Y])
+            double moveCost = Board[position.X, position.Y] switch
             {
-                case FloorType.Road:
-                    moveCost = 0.5;
-                    break;
-                case FloorType.Mud:
-                    moveCost = 2;
-                    break;
-                case FloorType.Normal:
-                    moveCost = 1;
-                    break;
-                default: 
-                    moveCost = 99;
-                    break;
-            }
+                FloorType.Road => 0.5,
+                FloorType.Mud => 2.0,
+                FloorType.Normal => 1.0,
+                _ => 99,
+            };
             return moveCost;
         }
 
 
-        //wrong Algorithm, to be improved!
         public Direction FindPath(Position position, Position destination)
         {
             double[,] snapShot = new double[Board.GetLength(0), Board.GetLength(1)];
@@ -161,9 +150,9 @@
             Monsters.ForEach(monster => snapShot[monster.Position.X, monster.Position.Y] = 99);
             Items.ForEach(item => snapShot[item.Position.X, item.Position.Y] = 99);
 
-            List<Path> openPaths = [new Path(position, [], 0, position.Distance(destination) / 2)];
+            List<Path> openPaths = [new Path(position, [], 0, position.Distance(destination) / 2.0)];
+            List<Path> closedPaths = [];
 
-            snapShot[openPaths.First().Position.X, openPaths.First().Position.Y] = 99;
             while (openPaths.Count > 0)
             {
                 var temp = openPaths.Last();
@@ -171,19 +160,36 @@
                 {
                     if (temp.FullWay.Count > 0)
                     {
-                        return temp.FullWay.First();
+                        var moveDirection = temp.FullWay.First();
+                        if (snapShot[position.GetNeighbourPosition(moveDirection).X, position.GetNeighbourPosition(moveDirection).Y] >= 10)
+                        {
+                            return Direction.Idle;
+                        }
+                        return moveDirection;
                     }
+                    return Direction.Idle;
                 }
+                closedPaths.Add(temp);
                 openPaths.Remove(temp);
-                var neighbours = temp.Neighbours(destination, MoveCost(temp.Position));
+                var neighbours = temp.Neighbours(destination, snapShot[temp.Position.X, temp.Position.Y]);
 
                 foreach (var newPath in neighbours)
                 {
-                    if(snapShot[newPath.Position.X, newPath.Position.Y] > 10)
+                    if (closedPaths.Any(path => path.Position.SamePosition(newPath.Position)))
                     {
                         continue;
                     }
-                    snapShot[newPath.Position.X, newPath.Position.Y] = 99;
+                    int samePathIndex = openPaths.FindIndex(x => x.Position.SamePosition(newPath.Position));
+
+                    if (samePathIndex > 0)
+                    {
+                        if (newPath.DistanceTraveled > openPaths[samePathIndex].DistanceTraveled)
+                        {
+                            continue;
+                        }
+                        openPaths.RemoveAt(samePathIndex);
+                    }
+
                     int index = openPaths.FindIndex(x => x.Compare(newPath));
                     if (index < 0) index = openPaths.Count;
                     openPaths.Insert(index, newPath);
@@ -197,7 +203,7 @@
             public List<Direction> FullWay { get; set; } = directions;
             public Position Position { get; set; } = position;
             public double DistanceTraveled { get; set; } = traveled;
-            public double SumTraveledApproximate { get; set; } = distance + traveled;
+            public double ApproximateDistance { get; set; } = distance;
 
             public List<Path> Neighbours(Position destination, double moveCost)
             {
@@ -207,27 +213,34 @@
                 var up = Position.GetNeighbourPosition(Direction.Up);
                 var down = Position.GetNeighbourPosition(Direction.Down);
 
-                if (left.InField(Size)) neighbours.Add(new(left, [.. FullWay, Direction.Left], DistanceTraveled + moveCost, left.Distance(destination) / 2));
-                if (right.InField(Size)) neighbours.Add(new(right, [.. FullWay, Direction.Right], DistanceTraveled + moveCost, right.Distance(destination) / 2));
-                if (up.InField(Size)) neighbours.Add(new(up, [.. FullWay, Direction.Up], DistanceTraveled + moveCost, up.Distance(destination) / 2));
-                if (down.InField(Size)) neighbours.Add(new(down, [.. FullWay, Direction.Down], DistanceTraveled + moveCost, down.Distance(destination) / 2));
+                if (left.InField(Size)) neighbours.Add(
+                    new(left, [.. FullWay, Direction.Left], DistanceTraveled + moveCost, left.Distance(destination) / 2.0)
+                    );
+                if (right.InField(Size)) neighbours.Add(
+                    new(right, [.. FullWay, Direction.Right], DistanceTraveled + moveCost, right.Distance(destination) / 2.0)
+                    );
+                if (up.InField(Size)) neighbours.Add(
+                    new(up, [.. FullWay, Direction.Up], DistanceTraveled + moveCost, up.Distance(destination) / 2.0)
+                    );
+                if (down.InField(Size)) neighbours.Add(
+                    new(down, [.. FullWay, Direction.Down], DistanceTraveled + moveCost, down.Distance(destination) / 2.0)
+                    );
 
                 return neighbours;
             }
 
             public bool Compare(Path other)
             {
-                if (SumTraveledApproximate < other.SumTraveledApproximate)
+                if (ApproximateDistance + DistanceTraveled < other.ApproximateDistance + other.DistanceTraveled)
                 {
                     return true;
                 }
-                if (SumTraveledApproximate == other.SumTraveledApproximate)
+                if (ApproximateDistance + DistanceTraveled == other.ApproximateDistance + other.DistanceTraveled)
                 {
                     return DistanceTraveled > other.DistanceTraveled;
                 }
                 return false;
             }
         }
-
     }
 }

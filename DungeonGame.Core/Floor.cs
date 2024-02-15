@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace DungeonGame.Core
+﻿namespace DungeonGame.Core
 {
     public class Floor
     {

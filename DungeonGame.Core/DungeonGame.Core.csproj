@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Leaderboard\" />
+    <Compile Remove="Leaderboard\**" />
+    <EmbeddedResource Remove="Leaderboard\**" />
+    <None Remove="Leaderboard\**" />
   </ItemGroup>
 
 </Project>

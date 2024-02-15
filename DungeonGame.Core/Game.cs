@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace DungeonGame.Core
+﻿namespace DungeonGame.Core
 {
     public class Game
     {
@@ -16,22 +14,13 @@ namespace DungeonGame.Core
         {
             Map.Setup(0);
         }
-        public void Action(Input input)
-        {
-            if (FightMode == -1)
-            {
-                Direction direction = InputToDirection(input);
-                MoveTurn(direction);
-            }
-            else
-            {
-                FightTurn(input == Input.RiskyAttack);
-            }
-        }
 
         public void MoveTurn(Direction direction)
         {
-            Map.FindPath(new(4, 0), new(4, 19));
+            if(CollisionChecks())
+            {
+                return;
+            }
             double moveCost = Map.MoveCost(Map.Player.Position);
             if (Map.Player.Stamina >= moveCost)
             {
@@ -166,18 +155,6 @@ namespace DungeonGame.Core
             }
             Attacks = [playerAttack, monsterAttack];
             return Map.Player.Hp > 0;
-        }
-
-        private Direction InputToDirection(Input input)
-        {
-            return input switch
-            {
-                Input.Left => Direction.Left,
-                Input.Right => Direction.Right,
-                Input.Up => Direction.Up,
-                Input.Down => Direction.Down,
-                _ => Direction.Idle,
-            };
         }
 
         public void NextFloor()
