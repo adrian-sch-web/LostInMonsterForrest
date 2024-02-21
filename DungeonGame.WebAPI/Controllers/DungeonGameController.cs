@@ -79,7 +79,7 @@ namespace DungeonGame.WebAPI.Controllers
             var game = CheckCache();
             if (!game.recordSubmitted)
             {
-                var entry = mapper.Map(dto);
+                var entry = mapper.Map(dto, game);
                 Leaderboard.SaveRecord(entry);
                 game.recordSubmitted = true;
             }

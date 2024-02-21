@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.Core", "Dungeon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonGame.WebAPI", "DungeonGame.WebAPI\DungeonGame.WebAPI.csproj", "{EAAEB187-BE73-44BB-82A9-DAE17515E3EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{018E9E93-13E2-4076-8361-D1F1F16B0F3D}"
+	ProjectSection(SolutionItems) = preProject
+		DungeonGame.Core\Leaderboard\Leaderboard.csv = DungeonGame.Core\Leaderboard\Leaderboard.csv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

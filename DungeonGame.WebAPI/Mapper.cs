@@ -5,9 +5,9 @@ namespace DungeonGame.WebAPI
     public class Mapper
     {
 
-        public LeaderboardEntry Map(LbEntryDto dto)
+        public LeaderboardEntry Map(LbEntryDto dto, Game game)
         {
-            return (new LeaderboardEntry(dto.ID, dto.Name, dto.Floor, dto.Kills));
+            return (new LeaderboardEntry(dto.ID, dto.Name, game.Stats.Floor, game.Stats.Kills));
         }
 
         public LbEntryDto Map(LeaderboardEntry entry)
