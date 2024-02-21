@@ -1,0 +1,54 @@
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.exe
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.deps.json
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.runtimeconfig.json
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.AssemblyReference.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfo.cs
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CopyComplete
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\refint\DungeonGame.UI.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.genruntimeconfig.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame\obj\Debug\net8.0\ref\DungeonGame.UI.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.exe
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.deps.json
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.runtimeconfig.json
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.AssemblyReference.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfo.cs
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CopyComplete
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\refint\DungeonGame.UI.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.genruntimeconfig.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame\obj\Debug\net8.0\ref\DungeonGame.UI.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.exe
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.deps.json
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.runtimeconfig.json
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.AssemblyReference.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.AssemblyInfo.cs
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.csproj.CopyComplete
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\refint\DungeonGame.UI.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.pdb
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\DungeonGame.UI.genruntimeconfig.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame\obj\Debug\net8.0\ref\DungeonGame.UI.dll

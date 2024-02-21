@@ -54,7 +54,7 @@
             FloorSetup();
             DoorSetup();
             ItemSetup(1);
-            MonsterSetup(3 + floor * 2);
+            MonsterSetup(1 + floor * 2);
         }
 
         public Position GetRandomPosition()
@@ -111,14 +111,18 @@
 
         public double MoveCost(Position position)
         {
-            double moveCost = Board[position.X, position.Y] switch
+            return MoveCost(Board[position.X, position.Y]);
+        }
+
+        public double MoveCost(FloorType floor)
+        {
+            return floor switch
             {
                 FloorType.Road => 0.5,
                 FloorType.Mud => 2.0,
                 FloorType.Normal => 1.0,
-                _ => 99,
+                _ => 99
             };
-            return moveCost;
         }
 
 
@@ -129,21 +133,7 @@
             {
                 for (int j = 0; j < snapShot.GetLength(1); j++)
                 {
-                    switch (Board[i, j])
-                    {
-                        case FloorType.Tree:
-                            snapShot[i, j] = 99;
-                            break;
-                        case FloorType.Road:
-                            snapShot[i, j] = 0.5;
-                            break;
-                        case FloorType.Mud:
-                            snapShot[i, j] = 2;
-                            break;
-                        case FloorType.Normal:
-                            snapShot[i, j] = 1;
-                            break;
-                    }
+                    snapShot[i, j] = MoveCost(Board[i, j]);
                 }
             }
             snapShot[Door.Position.X, Door.Position.Y] = 99;

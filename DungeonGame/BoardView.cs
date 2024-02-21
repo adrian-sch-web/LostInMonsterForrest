@@ -5,6 +5,8 @@ namespace DungeonGame.UI
     public class BoardView
     {
         private readonly string[] baseMap;
+        private char[][] roundMap = new char[22][];
+        private int floor = 0;
 
         public BoardView(Position size)
         {
@@ -24,31 +26,74 @@ namespace DungeonGame.UI
             baseMap[8] = baseMap[8] + "    * § Giganto *";
             baseMap[9] = baseMap[9] + "    * $ Normalo *";
             baseMap[10] = baseMap[10] + "    * # Attacko *";
-            baseMap[11] = baseMap[11] + "    *************";
+            baseMap[11] = baseMap[11] + "    *           *";
+            baseMap[12] = baseMap[12] + "    * - Road    *";
+            baseMap[13] = baseMap[13] + "    * ■ Mud     *";
+            baseMap[14] = baseMap[14] + "    *************";
+            for (int i = 0; i < roundMap.Length; i++)
+            {
+                roundMap[i] = baseMap[i].ToCharArray();
+            }
+        }
+
+        public void setRoundMap(Game game)
+        {
+            for (int i = 0; i < roundMap.Length; i++)
+            {
+                roundMap[i] = baseMap[i].ToCharArray();
+            }
+            for (int i = 0; i < game.Map.Board.GetLength(0); i++)
+            {
+                for (int j = 0; j < game.Map.Board.GetLength(1); j++)
+                {
+                    switch (game.Map.Board[i, j])
+                    {
+                        case FloorType.Mud:
+                            roundMap[i + 1][j + 1] = '■';
+                            break;
+                        case FloorType.Road:
+                            roundMap[i + 1][j + 1] = '_';
+                            break;
+                        case FloorType.Tree:
+                            roundMap[i + 1][j + 1] = '*';
+                            break;
+                    }
+
+                }
+            }
         }
 
         public void Refresh(Game game)
         {
-            string[] tempMap = new string[baseMap.Length];
-            for (int i = 0; i < tempMap.Length; i++)
+            if(floor != game.Stats.Floor)
             {
-                tempMap[i] = baseMap[i];
+                floor = game.Stats.Floor;
+                setRoundMap(game);
+            }
+            char[][] tempMap = new char[roundMap.Length][];
+            for (int i = 0; i < roundMap.Length; i++)
+            {
+                tempMap[i] = new char[roundMap[i].Length];               
+                for(int j = 0; j < roundMap[i].Length; j++)
+                {
+                    tempMap[i][j] = roundMap[i][j];
+                }
             }
             string topInfo = "*****Floor " + game.Stats.Floor + "*****Steps: " + game.Stats.Steps + "*****Kills " + game.Stats.Kills;
-            tempMap[0] = String.Concat(topInfo, tempMap[0].AsSpan(topInfo.Length));
+            Console.WriteLine(topInfo);
 
-            tempMap[game.Map.Door.Position.Y + 1] = PrintSymbol(game.Map.Door.Position, tempMap[game.Map.Door.Position.Y + 1], "¶");
-            tempMap[game.Map.Player.Position.Y + 1] = PrintSymbol(game.Map.Player.Position, tempMap[game.Map.Player.Position.Y + 1], "+");
+            tempMap[game.Map.Door.Position.X + 1][game.Map.Door.Position.Y + 1] = '¶';
+            tempMap[game.Map.Player.Position.X + 1][game.Map.Player.Position.Y + 1] = '+';
 
             foreach (var item in game.Map.Items)
             {
-                tempMap[item.Position.Y + 1] = PrintSymbol(item.Position, tempMap[item.Position.Y + 1], getItemSymbol(item.Type));
+                tempMap[item.Position.X + 1][item.Position.Y + 1] = getItemSymbol(item.Type);
 
             }
 
             foreach (var monster in game.Map.Monsters)
             {
-                tempMap[monster.Position.Y + 1] = PrintSymbol(monster.Position, tempMap[monster.Position.Y + 1], getMonsterSymbol(monster.Type));
+                tempMap[monster.Position.X + 1][monster.Position.Y + 1] = getMonsterSymbol(monster.Type);
             }
 
             for (int i = 0; i < tempMap.Length; i++)
@@ -57,32 +102,26 @@ namespace DungeonGame.UI
             }
         }
 
-        private string getMonsterSymbol(MonsterType type)
+        private char getMonsterSymbol(MonsterType type)
         {
             return type switch
             {
-                MonsterType.Giganto => "§",
-                MonsterType.Normalo => "$",
-                MonsterType.Attacko => "#",
+                MonsterType.Giganto => '§',
+                MonsterType.Normalo => '$',
+                MonsterType.Attacko => '#',
                 _ => throw new Exception("Invalid Monster Type"),
             };
         }
 
-        private string getItemSymbol(ItemType type)
+        private char getItemSymbol(ItemType type)
         {
             return type switch
             {
-                ItemType.Crit => "C",
-                ItemType.Damage => "D",
-                ItemType.Heal => "H",
+                ItemType.Crit => 'C',
+                ItemType.Damage => 'D',
+                ItemType.Heal => 'H',
                 _ => throw new Exception("Invalid Item Type"),
             };
-        }
-
-        private string PrintSymbol(Position position, string line, string symbol)
-        {
-            line = string.Concat(line.AsSpan(0, position.X + 1), symbol, line.AsSpan(position.X + 2));
-            return line;
         }
     }
 }

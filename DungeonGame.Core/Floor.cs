@@ -3,7 +3,7 @@
     public class Floor
     {
         private static Position Size { get; } = new(20, 20);
-       
+
         public static List<FloorType[,]> GetBoards()
         {
             List<FloorType[,]> formations = [];
@@ -104,9 +104,9 @@
                 formations[4][i + 14, 9] = FloorType.Tree;
                 formations[4][i + 14, 10] = FloorType.Tree;
             }
-            for(int i = 6; i < 14; i++)
+            for (int i = 6; i < 14; i++)
             {
-                for( int j = 6; j < 14; j++)
+                for (int j = 6; j < 14; j++)
                 {
                     formations[4][i, j] = FloorType.Road;
                 }
@@ -158,6 +158,23 @@
                 {
                     formations[7][i, j] = FloorType.Mud;
                 }
+            }
+
+            formations.Add(new FloorType[Size.X, Size.Y]);
+            for (int i = 4; i < 16; i++)
+            {
+                formations[8][i, 3] = FloorType.Tree;
+                formations[8][i, 16] = FloorType.Tree;
+            }
+            for (int i = 4; i < 11; i++)
+            {
+                formations[8][i, 12] = FloorType.Tree;
+                formations[8][i + 5, 7] = FloorType.Tree;
+            }
+            for (int i = 4; i < 12; i++)
+            {
+                formations[8][4, i] = FloorType.Tree;
+                formations[8][15, i + 4] = FloorType.Tree;
             }
             return formations;
         }

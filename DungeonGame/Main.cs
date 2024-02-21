@@ -2,7 +2,7 @@
 using DungeonGame.UI;
 
 Game game = new();
-UserInterface UI = new(Map.Size);
+UserInterface UI = new(new(20, 20));
 UI.Refresh(game);
 while (game.IsRunning)
 {
@@ -24,10 +24,10 @@ static Direction InputToDirection(Input input)
 {
     return input switch
     {
-        Input.Left => Direction.Left,
-        Input.Right => Direction.Right,
-        Input.Up => Direction.Up,
-        Input.Down => Direction.Down,
+        Input.Left => Direction.Up,
+        Input.Right => Direction.Down,
+        Input.Up => Direction.Left,
+        Input.Down => Direction.Right,
         _ => Direction.Idle,
     };
 }

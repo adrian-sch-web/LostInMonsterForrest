@@ -12,16 +12,21 @@
 
         public Game()
         {
-            Map.Setup(0);
+            Map.Setup(1);
         }
 
         public void MoveTurn(Direction direction)
         {
-            if(CollisionChecks())
+            Position playerPosition = Map.Player.Position;
+            if (CollisionChecks())
             {
                 return;
             }
-            double moveCost = Map.MoveCost(Map.Player.Position);
+            if (!playerPosition.GetNeighbourPosition(direction).InField(Map.Size) || Map.OnTree(playerPosition.GetNeighbourPosition(direction)))
+            {
+                return;
+            }
+            double moveCost = Map.MoveCost(playerPosition);
             if (Map.Player.Stamina >= moveCost)
             {
                 Stats.Steps++;
@@ -33,7 +38,7 @@
                     return;
                 }
                 moveCost = Map.MoveCost(Map.Player.Position);
-                if(Map.Player.Stamina >= moveCost)
+                if (Map.Player.Stamina >= moveCost)
                 {
                     return;
                 }

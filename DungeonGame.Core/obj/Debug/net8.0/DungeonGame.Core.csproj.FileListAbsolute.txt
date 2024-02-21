@@ -1,0 +1,33 @@
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.deps.json
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfo.cs
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\refint\DungeonGame.Core.dll
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\Visual Studio 2022\Projects\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\ref\DungeonGame.Core.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.deps.json
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfo.cs
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\refint\DungeonGame.Core.dll
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\CSharpProjekte\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\ref\DungeonGame.Core.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.deps.json
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\bin\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfoInputs.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.AssemblyInfo.cs
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.csproj.CoreCompileInputs.cache
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\refint\DungeonGame.Core.dll
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\DungeonGame.Core.pdb
+C:\Users\schad\Documents\DungeonGame\DungeonGame\DungeonGame.Core\obj\Debug\net8.0\ref\DungeonGame.Core.dll

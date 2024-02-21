@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aqpibZ8vOOHwMbH9+y+sDS8z3l13Ogqt0uw4l+hCzxU=",
+  "Source": "DungeonGame.WebAPI",
+  "BasePath": "_content/DungeonGame.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\DungeonGame.WebAPI.props" />
+</Project>

@@ -77,19 +77,19 @@ namespace DungeonGame.UI
             switch (keyInfo.Key)
             {
                 case ConsoleKey.LeftArrow:
-                    if (game.Map.Player.Position.X == 0)
-                        return false;
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (game.Map.Player.Position.X == Map.Size.X)
-                        return false;
-                    break;
-                case ConsoleKey.UpArrow:
                     if (game.Map.Player.Position.Y == 0)
                         return false;
                     break;
-                case ConsoleKey.DownArrow:
+                case ConsoleKey.RightArrow:
                     if (game.Map.Player.Position.Y == Map.Size.Y)
+                        return false;
+                    break;
+                case ConsoleKey.UpArrow:
+                    if (game.Map.Player.Position.X == 0)
+                        return false;
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (game.Map.Player.Position.X == Map.Size.X)
                         return false;
                     break;
                 default: 
