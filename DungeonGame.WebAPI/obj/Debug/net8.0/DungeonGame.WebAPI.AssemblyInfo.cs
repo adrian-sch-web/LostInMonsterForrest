@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DungeonGame.WebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a82bd0404e38c9dadaa3454bfabc497c131dfe8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1716b4bf16b98ca8d3d3afae0ab6543aebbb1da")]
 [assembly: System.Reflection.AssemblyProductAttribute("DungeonGame.WebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DungeonGame.WebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
