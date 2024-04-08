@@ -1,0 +1,7 @@
+@if (fighter) {
+    <svg  viewbox="0 0 10 10" height="20" [attr.transform]="getFlip(flip)">
+        <rect width="300" height="10" x="0" y="5" rx="5" ry="5" fill="grey" />
+        <rect width="290" height="6" x="5" y="7" rx="5" ry="5" fill="lightgrey" />
+        <rect [attr.width]="calcHpBar(fighter)" height="6" x="5" y="7" rx="5" ry="5" fill="limegreen" />
+    </svg>
+}

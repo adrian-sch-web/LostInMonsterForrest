@@ -1,0 +1,29 @@
+<div class="fightImages">
+    <div class="fighter">
+        <img [src]="PlayerImage()"/>
+        <div>
+            @if(player){
+                <app-healthbar [fighter]="player"></app-healthbar>
+            }
+        </div>
+    </div>
+    <div class="fighter">    
+        <img [src]="MonsterImage()"/>
+        <div class="monsterHp">
+            @if(monster){
+                <app-healthbar [fighter]="monster" [flip]="true"></app-healthbar>
+            }
+        </div>
+    </div>
+</div>
+@if(monster && player && monster.hp != 0 && player.hp != 0){
+    <button class="menu" [style.background-color]="risky ? 'darkgrey':'red'" (click)="attack(false)" (mouseenter)="risky = false">Normal Attack</button> 
+    <button class="menu" [style.background-color]="risky ? 'red':'darkgrey'" (click)="attack(true)" (mouseenter)="risky = true">Risky Attack</button>
+}
+@else {
+    <button class="menu" [style.background-color]="'red'" (click)="attack()">Continue</button>
+}
+@for(attack of attacks;track $index) {
+    <div>{{message(attack)}}</div><br>
+}
+
