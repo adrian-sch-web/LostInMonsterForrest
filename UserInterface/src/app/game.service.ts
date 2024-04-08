@@ -82,13 +82,13 @@ export class GameService {
   getFloorUrl(floor: Floor): string {
     switch (floor) {
       case Floor.Normal:
-        return "https://localhost:7217/DungeonGame/Image/Floor";
+        return this.url + "/DungeonGame/Image/Floor";
       case Floor.Mud:
-        return "https://localhost:7217/DungeonGame/Image/Mud";
+        return this.url + "/DungeonGame/Image/Mud";
       case Floor.Road:
-        return "https://localhost:7217/DungeonGame/Image/Road";
+        return this.url + "/DungeonGame/Image/Road";
       default:
-        return "https://localhost:7217/DungeonGame/Image/Floor";
+        return this.url + "/DungeonGame/Image/Floor";
     }
   }
 
